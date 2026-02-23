@@ -1,0 +1,12 @@
+# 1) install
+pip install -r requirements.txt
+
+# 2) create env
+copy .env.example .env   # (Windows)
+# or: cp .env.example .env
+
+# 3) fetch + store + alerts
+python run.py
+
+# 4) dashboard
+streamlit run src/dashboard.py
