@@ -12,8 +12,11 @@ __pycache__/
 # Environment secrets
 .env
 
-# Generated data (each machine builds its own history)
-data/*.csv
+# Generated data
+# readings.csv / sites.csv / spike_alerts.csv are tracked on purpose: a
+# scheduled GitHub Actions workflow commits them so Power BI can read the
+# latest data straight from the repo (see .github/workflows/collect.yml
+# and powerbi/README.md). Only the old SQLite file is ignored.
 data/*.db
 !data/.gitkeep
 

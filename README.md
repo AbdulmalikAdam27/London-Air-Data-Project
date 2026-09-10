@@ -33,8 +33,10 @@ This project uses the **London Air Quality Network / ERG API**:
 
 ```text
 London-Air-Data-Project/
+├─ .github/workflows/
+│  └─ collect.yml            # scheduled cloud run: fetches data, commits the CSVs
 ├─ data/
-│  ├─ readings.csv           # fact table: hourly readings (generated locally)
+│  ├─ readings.csv           # fact table: hourly readings (tracked — see Automation below)
 │  ├─ sites.csv              # dimension table: site name + lat/lon
 │  └─ spike_alerts.csv       # log of detected spikes
 ├─ powerbi/
@@ -46,7 +48,7 @@ London-Air-Data-Project/
 │  ├─ store_csv.py           # append/dedupe/upsert into the CSVs
 │  └─ alert_spikes.py        # spike detection over the CSV history
 ├─ run.py                    # one-shot pipeline runner (fetch -> store -> alert)
-├─ run_pipeline.bat          # entry point for Windows Task Scheduler
+├─ run_pipeline.bat          # entry point for local Windows Task Scheduler
 ├─ migrate_sqlite_to_csv.py  # one-off: import old SQLite-era history
 ├─ requirements.txt          # Python dependencies (stdlib-heavy, no pandas)
 ├─ .env                      # local config (paths, group name, alert tuning)
@@ -84,13 +86,28 @@ See [powerbi/README.md](powerbi/README.md) for the full walkthrough —
 importing the CSVs into Power BI Desktop, setting up the relationship, and
 which visuals/measures to build.
 
-## Scheduling
+## Scheduling / Automation
 
-To keep the CSVs growing automatically (e.g. hourly), point Windows Task
-Scheduler at `run_pipeline.bat` in this folder. It runs `run.py` using the
-project's own `.venv` and appends output to `logs/pipeline.log`. Open Power BI
-Desktop and hit **Refresh** whenever you want the dashboard to pick up the
-latest rows.
+Two ways to keep the CSVs growing, and you can use either or both:
+
+**Cloud (recommended) — GitHub Actions.** [`.github/workflows/collect.yml`](.github/workflows/collect.yml)
+runs `python run.py` every hour on GitHub's infrastructure and commits the
+updated CSVs back to this repo — no local machine needs to be on. It also
+runs on demand from the **Actions** tab (`Run workflow`). Because this repo
+is public, this costs nothing (public repos get unlimited Actions minutes).
+Power BI then reads the CSVs straight from GitHub instead of a local file —
+see [powerbi/README.md](powerbi/README.md#cloud-data-via-github-actions).
+
+**Local — Windows Task Scheduler.** Point a scheduled task at
+`run_pipeline.bat` in this folder. It runs `run.py` using the project's own
+`.venv` and appends output to `logs/pipeline.log`. Useful if you want a local
+copy of the data or want to run more often than hourly. If you also use
+GitHub Actions, `git pull` before running locally to avoid diverging from
+what the workflow has already committed.
+
+Either way, open Power BI Desktop and hit **Refresh** whenever you want the
+dashboard to pick up the latest rows (or set up scheduled refresh in the
+Power BI Service — also covered in the Power BI guide).
 
 ## Migrating from the old SQLite version
 

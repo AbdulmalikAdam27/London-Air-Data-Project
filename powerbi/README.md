@@ -8,8 +8,10 @@ The Python pipeline (`run.py`) only produces data — three CSVs in `data/`:
 | `sites.csv` | Dimension table: site name, borough, lat/lon | 1 row per site |
 | `spike_alerts.csv` | Log of unusual readings the alert rule has flagged | 1 row per detected spike, per run |
 
-Everything visual lives in Power BI Desktop. Steps below assume you've run
-`python run.py` at least once so the CSVs exist.
+Everything visual lives in Power BI Desktop. You can point it at either a
+local copy of the CSVs or the copy that GitHub Actions keeps updated in the
+cloud (see [Cloud data via GitHub Actions](#cloud-data-via-github-actions)
+below) — the import steps are almost identical, just a different source URL.
 
 ## 1. Import the data
 
@@ -57,5 +59,32 @@ Open `powerbi/measures.dax` in this repo and paste each measure into
 ## 5. Keep it refreshing
 
 - **Manual**: after each `python run.py`, click **Refresh** in Power BI Desktop (Home ribbon) — it re-reads the CSVs.
-- **Scheduled on this machine**: use `run_pipeline.bat` (see the main [README](../README.md#scheduling)) with Windows Task Scheduler to keep the CSVs growing hourly, then hit Refresh in Desktop whenever you open it.
-- **Scheduled + published**: if you publish the report to the Power BI Service, you can point a **Gateway** at this folder and set a scheduled refresh there too — but for a portfolio/local project, Desktop refresh is usually enough.
+- **Scheduled on this machine**: use `run_pipeline.bat` (see the main [README](../README.md#scheduling--automation)) with Windows Task Scheduler to keep the CSVs growing hourly, then hit Refresh in Desktop whenever you open it. This only requires a **Gateway** if you later publish to the Power BI Service and want that local file kept fresh there too.
+- **Cloud, no machine required**: use the GitHub Actions source below — since it's a public HTTPS URL, the Power BI **Service** can refresh it on a schedule with no gateway at all.
+
+## Cloud data via GitHub Actions
+
+[`.github/workflows/collect.yml`](../.github/workflows/collect.yml) runs the
+pipeline every hour on GitHub's servers and commits the updated CSVs to this
+repo. That means the data updates even if your laptop is off, and Power BI
+can read it from a plain URL instead of a local file:
+
+```
+https://raw.githubusercontent.com/AbdulmalikAdam27/London-Air-Data-Project/main/data/readings.csv
+https://raw.githubusercontent.com/AbdulmalikAdam27/London-Air-Data-Project/main/data/sites.csv
+https://raw.githubusercontent.com/AbdulmalikAdam27/London-Air-Data-Project/main/data/spike_alerts.csv
+```
+
+**In Power BI Desktop**: use **Get Data → Web** instead of **Text/CSV**,
+paste one of the URLs above, and continue exactly as in step 1 — Power BI
+detects the CSV and lets you set column types the same way.
+
+**In the Power BI Service (scheduled refresh without a gateway)**:
+1. Publish the report (Home → Publish, or File → Publish → Publish to Power BI).
+2. In the workspace, open the dataset's **Settings → Scheduled refresh**.
+3. Under **Data source credentials**, set the Web source to **Anonymous** — no gateway needed since it's a public URL.
+4. Turn on **Keep your data up to date** and pick a refresh time (Pro workspaces allow up to 8 refreshes/day).
+
+Two things worth knowing:
+- GitHub's raw-content CDN caches responses for a few minutes, so a refresh right after a commit lands may occasionally still show the previous version — refreshing again a few minutes later picks it up.
+- The workflow's schedule can lag by several minutes at busy times (a GitHub Actions quirk, not something in this repo) — it's still "every hour," just not to the second.
