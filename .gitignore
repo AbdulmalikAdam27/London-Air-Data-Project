@@ -1,0 +1,22 @@
+# Virtual environments
+.venv/
+venv/
+
+# IDE
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+
+# Environment secrets
+.env
+
+# Generated data (each machine builds its own history)
+data/*.csv
+data/*.db
+!data/.gitkeep
+
+# Pipeline run logs
+logs/*.log
+!logs/.gitkeep

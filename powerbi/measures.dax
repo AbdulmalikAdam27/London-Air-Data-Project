@@ -1,0 +1,45 @@
+-- Paste these into Power BI Desktop: Modeling tab > New Measure, one at a time.
+-- Assumes the readings table is named "readings" and the sites table "sites",
+-- related on site_code (see powerbi/README.md for the relationship setup).
+
+Latest Reading Time = MAX(readings[data_end_parsed])
+
+Latest AQI (Selected Context) =
+VAR LatestTime = [Latest Reading Time]
+RETURN
+    CALCULATE(
+        AVERAGE(readings[aq_index]),
+        readings[data_end_parsed] = LatestTime
+    )
+
+Worst AQI Today =
+CALCULATE(
+    MAX(readings[aq_index]),
+    readings[data_end_parsed] >= TODAY()
+)
+
+Sites Reporting Today =
+CALCULATE(
+    DISTINCTCOUNT(readings[site_code]),
+    readings[data_end_parsed] >= TODAY()
+)
+
+Avg AQI (Last 24h) =
+CALCULATE(
+    AVERAGE(readings[aq_index]),
+    readings[data_end_parsed] >= NOW() - 1
+)
+
+Spike Count (All Time) = COUNTROWS(spike_alerts)
+
+-- Optional: readable AQI band from the numeric index, if you ever need it
+-- without relying on the API's own aq_band text column.
+AQI Band (Calculated) =
+SWITCH(
+    TRUE(),
+    ISBLANK([Latest AQI (Selected Context)]), "No data",
+    [Latest AQI (Selected Context)] <= 3, "Low",
+    [Latest AQI (Selected Context)] <= 6, "Moderate",
+    [Latest AQI (Selected Context)] <= 9, "High",
+    "Very High"
+)

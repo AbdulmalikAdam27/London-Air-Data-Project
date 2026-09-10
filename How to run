@@ -1,12 +1,15 @@
 # 1) install
 pip install -r requirements.txt
 
-# 2) create env
-copy .env.example .env   # (Windows)
-# or: cp .env.example .env
+# 2) (only if migrating old SQLite data) bring in history
+python migrate_sqlite_to_csv.py
 
-# 3) fetch + store + alerts
+# 3) fetch + store + alerts -> writes/updates data/*.csv
 python run.py
 
-# 4) dashboard
-streamlit run src/dashboard.py
+# 4) open Power BI Desktop, import data/readings.csv and data/sites.csv,
+#    and follow powerbi/README.md to build the dashboard.
+#    Click Refresh in Power BI Desktop after each future `python run.py`.
+
+# Optional: schedule step 3 automatically
+# Windows Task Scheduler -> new task -> action: run_pipeline.bat in this folder
