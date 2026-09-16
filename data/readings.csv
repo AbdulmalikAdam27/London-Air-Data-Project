@@ -9701,3 +9701,195 @@ fetched_at_utc,ttl_minutes,local_authority,site_code,site_name,site_type,species
 2026-09-15T22:04:32.964513+00:00,54,Westminster,MY1,Westminster - Marylebone Road,Kerbside,SO2,Sulphur Dioxide,0.0,No data,Measurement,2026-09-15 21:00:00,2026-09-15T21:00:00+00:00
 2026-09-15T22:04:32.964513+00:00,54,Westminster,WM0,Westminster - Horseferry Road,Urban Background,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 21:00:00,2026-09-15T21:00:00+00:00
 2026-09-15T22:04:32.964513+00:00,54,Westminster,WM0,Westminster - Horseferry Road,Urban Background,PM25,PM2.5 Particulate,0.0,No data,Measurement,2026-09-15 21:00:00,2026-09-15T21:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Barking and Dagenham,BG1,Barking and Dagenham - Rush Green,Suburban,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Barking and Dagenham,BG1,Barking and Dagenham - Rush Green,Suburban,SO2,Sulphur Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Barking and Dagenham,BG2,Barking and Dagenham - Scrattons Farm,Suburban,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Barking and Dagenham,BG2,Barking and Dagenham - Scrattons Farm,Suburban,PM10,PM10 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Bexley,BQ7,Bexley - Belvedere West,Urban Background,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Bexley,BQ7,Bexley - Belvedere West,Urban Background,O3,Ozone,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Bexley,BQ7,Bexley - Belvedere West,Urban Background,PM10,PM10 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Bexley,BQ7,Bexley - Belvedere West,Urban Background,PM25,PM2.5 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Bexley,BQ9,Bexley - Slade Green FIDAS,Suburban,PM10,PM10 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Bexley,BQ9,Bexley - Slade Green FIDAS,Suburban,PM25,PM2.5 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Bexley,BX1,Bexley - Slade Green,Suburban,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Bexley,BX1,Bexley - Slade Green,Suburban,O3,Ozone,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Bexley,BX1,Bexley - Slade Green,Suburban,SO2,Sulphur Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Bexley,BX2,Bexley - Belvedere,Suburban,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Bexley,BX2,Bexley - Belvedere,Suburban,PM10,PM10 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Bexley,BX2,Bexley - Belvedere,Suburban,PM25,PM2.5 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Brent,BT4,Brent - Ikea,Roadside,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Brent,BT4,Brent - Ikea,Roadside,O3,Ozone,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Brent,BT4,Brent - Ikea,Roadside,PM10,PM10 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Brent,BT4,Brent - Ikea,Roadside,PM25,PM2.5 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Brent,BT5,Brent - Neasden Lane,Industrial,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Brent,BT5,Brent - Neasden Lane,Industrial,PM10,PM10 Particulate,2.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Brent,BT5,Brent - Neasden Lane,Industrial,PM25,PM2.5 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Brent,BT6,Brent - John Keble Primary School,Roadside,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Brent,BT6,Brent - John Keble Primary School,Roadside,PM10,PM10 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Brent,BT6,Brent - John Keble Primary School,Roadside,PM25,PM2.5 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Brent,BT8,Brent - ARK Franklin Primary Academy,Roadside,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Brent,BT8,Brent - ARK Franklin Primary Academy,Roadside,PM10,PM10 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Brent,BT8,Brent - ARK Franklin Primary Academy,Roadside,PM25,PM2.5 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Camden,BL0,Camden - Bloomsbury,Urban Background,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Camden,BL0,Camden - Bloomsbury,Urban Background,O3,Ozone,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Camden,BL0,Camden - Bloomsbury,Urban Background,PM10,PM10 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Camden,BL0,Camden - Bloomsbury,Urban Background,PM25,PM2.5 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Camden,BL0,Camden - Bloomsbury,Urban Background,SO2,Sulphur Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Camden,CD1,Camden - Swiss Cottage,Kerbside,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Camden,CD1,Camden - Swiss Cottage,Kerbside,PM10,PM10 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Camden,CD1,Camden - Swiss Cottage,Kerbside,PM25,PM2.5 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Croydon,CR5,Croydon - Norbury,Kerbside,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Croydon,CR7,Croydon - Purley Way A23,Roadside,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Croydon,CR9,Croydon - Park Lane,Roadside,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Croydon,CR9,Croydon - Park Lane,Roadside,PM10,PM10 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Croydon,CR9,Croydon - Park Lane,Roadside,PM25,PM2.5 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Enfield,EN1,Enfield - Bush Hill Park,Suburban,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Enfield,EN4,Enfield - Derby Road,Roadside,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Enfield,EN5,Enfield - Bowes Primary School,Roadside,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Enfield,EN5,Enfield - Bowes Primary School,Roadside,PM10,PM10 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Enfield,EN5,Enfield - Bowes Primary School,Roadside,PM25,PM2.5 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Enfield,EN7,Enfield - Prince of Wales School,Urban Background,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GB0,Greenwich - Falconwood FDMS,Roadside,PM25,PM2.5 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GB6,Greenwich - Falconwood,Roadside,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GB6,Greenwich - Falconwood,Roadside,O3,Ozone,2.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GB6,Greenwich - Falconwood,Roadside,PM10,PM10 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GN0,Greenwich - A206 Burrage Grove,Roadside,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GN0,Greenwich - A206 Burrage Grove,Roadside,PM10,PM10 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GN0,Greenwich - A206 Burrage Grove,Roadside,PM25,PM2.5 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GN3,Greenwich - Plumstead High Street,Roadside,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GN3,Greenwich - Plumstead High Street,Roadside,O3,Ozone,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GN3,Greenwich - Plumstead High Street,Roadside,PM10,PM10 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GN3,Greenwich - Plumstead High Street,Roadside,PM25,PM2.5 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GN4,Greenwich - Fiveways Sidcup Rd A20,Roadside,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GN5,Greenwich - Trafalgar Road (Hoskins St),Roadside,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GN5,Greenwich - Trafalgar Road (Hoskins St),Roadside,PM10,PM10 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GN6,Greenwich - John Harrison Way,Roadside,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GN6,Greenwich - John Harrison Way,Roadside,PM10,PM10 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GN6,Greenwich - John Harrison Way,Roadside,PM25,PM2.5 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GR4,Greenwich - Eltham,Suburban,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GR4,Greenwich - Eltham,Suburban,O3,Ozone,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GR4,Greenwich - Eltham,Suburban,PM10,PM10 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GR4,Greenwich - Eltham,Suburban,PM25,PM2.5 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GR4,Greenwich - Eltham,Suburban,SO2,Sulphur Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GR7,Greenwich - Blackheath,Roadside,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GR7,Greenwich - Blackheath,Roadside,PM10,PM10 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GR8,Greenwich - Woolwich Flyover,Roadside,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GR8,Greenwich - Woolwich Flyover,Roadside,PM10,PM10 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GR8,Greenwich - Woolwich Flyover,Roadside,PM25,PM2.5 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GR9,Greenwich - Westhorne Avenue,Roadside,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GR9,Greenwich - Westhorne Avenue,Roadside,O3,Ozone,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GR9,Greenwich - Westhorne Avenue,Roadside,PM10,PM10 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,GR9,Greenwich - Westhorne Avenue,Roadside,PM25,PM2.5 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Greenwich,TL4,Greenwich - Tunnel Avenue,Roadside,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Hackney,HK6,Hackney - Old Street,Roadside,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Hackney,HK6,Hackney - Old Street,Roadside,O3,Ozone,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Hackney,HK6,Hackney - Old Street,Roadside,PM10,PM10 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Hackney,HK6,Hackney - Old Street,Roadside,PM25,PM2.5 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Haringey,HG1,Haringey - Haringey Town Hall,Roadside,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Haringey,HG4,Haringey  - Priory Park South,Urban Background,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Haringey,HG4,Haringey  - Priory Park South,Urban Background,O3,Ozone,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Havering,HV1,Havering - Rainham,Roadside,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Havering,HV1,Havering - Rainham,Roadside,PM10,PM10 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Havering,HV1,Havering - Rainham,Roadside,PM25,PM2.5 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Havering,HV3,Havering - Romford,Roadside,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Havering,HV3,Havering - Romford,Roadside,PM10,PM10 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Havering,HV3,Havering - Romford,Roadside,PM25,PM2.5 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Hillingdon,HI0,Hillingdon - Keats Way,Suburban,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Hillingdon,HI0,Hillingdon - Keats Way,Suburban,O3,Ozone,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Hillingdon,LH0,Hillingdon - Harlington,Urban Background,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Hillingdon,LH0,Hillingdon - Harlington,Urban Background,O3,Ozone,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Hillingdon,LH0,Hillingdon - Harlington,Urban Background,PM10,PM10 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Hillingdon,LH0,Hillingdon - Harlington,Urban Background,PM25,PM2.5 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Kensington and Chelsea,GT1,Kensington and Chelsea - Station Walk,Urban Background,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Kensington and Chelsea,GT1,Kensington and Chelsea - Station Walk,Urban Background,PM10,PM10 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Kensington and Chelsea,GT1,Kensington and Chelsea - Station Walk,Urban Background,PM25,PM2.5 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Kensington and Chelsea,KC1,Kensington and Chelsea - North Ken,Urban Background,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Kensington and Chelsea,KC1,Kensington and Chelsea - North Ken,Urban Background,O3,Ozone,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Kensington and Chelsea,KC1,Kensington and Chelsea - North Ken,Urban Background,SO2,Sulphur Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Kensington and Chelsea,KF1,Kensington and Chelsea - North Ken FIDAS,Urban Background,PM10,PM10 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Kensington and Chelsea,KF1,Kensington and Chelsea - North Ken FIDAS,Urban Background,PM25,PM2.5 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Lambeth,LB4,Lambeth - Brixton Road,Kerbside,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Lambeth,LB4,Lambeth - Brixton Road,Kerbside,PM10,PM10 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Lambeth,LB4,Lambeth - Brixton Road,Kerbside,PM25,PM2.5 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Lambeth,LB5,Lambeth - Bondway Interchange,Industrial,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Lambeth,LB5,Lambeth - Bondway Interchange,Industrial,PM10,PM10 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Lambeth,LB5,Lambeth - Bondway Interchange,Industrial,SO2,Sulphur Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Lambeth,LB6,Lambeth - Streatham Green,Urban Background,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Lambeth,LB6,Lambeth - Streatham Green,Urban Background,PM10,PM10 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Lewisham,HP1,Lewisham - Honor Oak Park,Urban Background,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Lewisham,HP1,Lewisham - Honor Oak Park,Urban Background,O3,Ozone,2.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Lewisham,HP1,Lewisham - Honor Oak Park,Urban Background,PM10,PM10 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Lewisham,HP1,Lewisham - Honor Oak Park,Urban Background,PM25,PM2.5 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Merton,ME2,Merton - Merton Road,Roadside,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Merton,ME2,Merton - Merton Road,Roadside,PM10,PM10 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Merton,ME2,Merton - Merton Road,Roadside,PM25,PM2.5 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Merton,ME9,Merton - Morden Civic Centre 2,Roadside,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Merton,MEA,Merton - Mitcham,Roadside,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Merton,MEA,Merton - Mitcham,Roadside,PM25,PM2.5 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Merton,MEB,Merton - Plough Lane Wimbledon,Roadside,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Merton,MEB,Merton - Plough Lane Wimbledon,Roadside,PM10,PM10 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Merton,MEB,Merton - Plough Lane Wimbledon,Roadside,PM25,PM2.5 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Newham,TL5,Newham - Hoola Tower,Roadside,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Newham,TL6,Newham - Britannia Gate,Roadside,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Newham,TL6,Newham - Britannia Gate,Roadside,PM25,PM2.5 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Richmond,RHI,Richmond Upon Thames - Richmond,Kerbside,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Richmond,RHI,Richmond Upon Thames - Richmond,Kerbside,PM10,PM10 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Richmond,RHI,Richmond Upon Thames - Richmond,Kerbside,PM25,PM2.5 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Richmond,RI1,Richmond Upon Thames - Castelnau,Roadside,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Richmond,RI1,Richmond Upon Thames - Castelnau,Roadside,PM10,PM10 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Richmond,RI2,Richmond Upon Thames - Barnes Wetlands,Suburban,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Richmond,RI2,Richmond Upon Thames - Barnes Wetlands,Suburban,O3,Ozone,2.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Richmond,RI2,Richmond Upon Thames - Barnes Wetlands,Suburban,PM10,PM10 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Richmond,RI2,Richmond Upon Thames - Barnes Wetlands,Suburban,PM25,PM2.5 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Richmond,TD5,London Teddington Bushy Park ,Suburban,PM10,PM10 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Richmond,TD5,London Teddington Bushy Park ,Suburban,PM25,PM2.5 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Southwark,SK5,Southwark - A2 Old Kent Road,Roadside,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Southwark,SK5,Southwark - A2 Old Kent Road,Roadside,PM10,PM10 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Tower Hamlets,CW3,Tower Hamlets - Jubilee Park ,Urban Background,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Tower Hamlets,CW3,Tower Hamlets - Jubilee Park ,Urban Background,PM10,PM10 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Tower Hamlets,CW3,Tower Hamlets - Jubilee Park ,Urban Background,PM25,PM2.5 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Tower Hamlets,TH2,Tower Hamlets - Mile End Road,Roadside,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Tower Hamlets,TH2,Tower Hamlets - Mile End Road,Roadside,PM25,PM2.5 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Tower Hamlets,TH4,Tower Hamlets - Blackwall,Roadside,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Tower Hamlets,TH4,Tower Hamlets - Blackwall,Roadside,O3,Ozone,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Tower Hamlets,TH4,Tower Hamlets - Blackwall,Roadside,PM10,PM10 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Tower Hamlets,TH4,Tower Hamlets - Blackwall,Roadside,PM25,PM2.5 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Tower Hamlets,TH5,Tower Hamlets - Victoria Park,Urban Background,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Tower Hamlets,TH5,Tower Hamlets - Victoria Park,Urban Background,PM10,PM10 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Tower Hamlets,TH5,Tower Hamlets - Victoria Park,Urban Background,PM25,PM2.5 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Tower Hamlets,TH5,Tower Hamlets - Victoria Park,Urban Background,SO2,Sulphur Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Tower Hamlets,TH6,Tower Hamlets - Millwall Park,Urban Background,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Tower Hamlets,TH6,Tower Hamlets - Millwall Park,Urban Background,O3,Ozone,2.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Tower Hamlets,TH6,Tower Hamlets - Millwall Park,Urban Background,PM10,PM10 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Tower Hamlets,TH7,Tower Hamlets King Edward Memorial Park,Urban Background,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Tower Hamlets,TH7,Tower Hamlets King Edward Memorial Park,Urban Background,PM25,PM2.5 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Wandsworth,WA7,Wandsworth - Putney High Street,Kerbside,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Wandsworth,WA7,Wandsworth - Putney High Street,Kerbside,PM10,PM10 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Wandsworth,WA7,Wandsworth - Putney High Street,Kerbside,PM25,PM2.5 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Wandsworth,WA9,Wandsworth - Putney,Urban Background,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Wandsworth,WA9,Wandsworth - Putney,Urban Background,PM10,PM10 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Wandsworth,WA9,Wandsworth - Putney,Urban Background,PM25,PM2.5 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Wandsworth,WAA,Wandsworth - Battersea,Roadside,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Wandsworth,WAA,Wandsworth - Battersea,Roadside,PM10,PM10 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Wandsworth,WAA,Wandsworth - Battersea,Roadside,PM25,PM2.5 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Wandsworth,WAB,Wandsworth - Tooting High Street,Roadside,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Wandsworth,WAB,Wandsworth - Tooting High Street,Roadside,PM10,PM10 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Wandsworth,WAB,Wandsworth - Tooting High Street,Roadside,PM25,PM2.5 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Wandsworth,WAC,Wandsworth - Lavender Hill (Clapham Jct),Roadside,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Wandsworth,WAC,Wandsworth - Lavender Hill (Clapham Jct),Roadside,PM10,PM10 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Wandsworth,WAC,Wandsworth - Lavender Hill (Clapham Jct),Roadside,PM25,PM2.5 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Westminster,CE2,Waterloo Place (The Crown Estate),Roadside,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Westminster,CE2,Waterloo Place (The Crown Estate),Roadside,O3,Ozone,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Westminster,CE2,Waterloo Place (The Crown Estate),Roadside,PM10,PM10 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Westminster,CE2,Waterloo Place (The Crown Estate),Roadside,PM25,PM2.5 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Westminster,CE3,Regent Street (The Crown Estate),Roadside,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Westminster,CE3,Regent Street (The Crown Estate),Roadside,PM10,PM10 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Westminster,CE3,Regent Street (The Crown Estate),Roadside,PM25,PM2.5 Particulate,1.0,Low,Trigger,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Westminster,MR8,Marylebone Road - BAM,Kerbside,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Westminster,MR8,Marylebone Road - BAM,Kerbside,PM10,PM10 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Westminster,MR8,Marylebone Road - BAM,Kerbside,PM25,PM2.5 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Westminster,MY1,Westminster - Marylebone Road,Kerbside,NO2,Nitrogen Dioxide,1.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Westminster,MY1,Westminster - Marylebone Road,Kerbside,O3,Ozone,2.0,Low,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Westminster,MY1,Westminster - Marylebone Road,Kerbside,SO2,Sulphur Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Westminster,WM0,Westminster - Horseferry Road,Urban Background,NO2,Nitrogen Dioxide,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
+2026-09-16T00:12:30.366789+00:00,46,Westminster,WM0,Westminster - Horseferry Road,Urban Background,PM25,PM2.5 Particulate,0.0,No data,Measurement,2026-09-15 23:00:00,2026-09-15T23:00:00+00:00
