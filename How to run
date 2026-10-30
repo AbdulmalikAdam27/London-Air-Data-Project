@@ -4,12 +4,12 @@ pip install -r requirements.txt
 # 2) (only if migrating old SQLite data) bring in history
 python migrate_sqlite_to_csv.py
 
-# 3) fetch + store + alerts -> writes/updates data/*.csv
+# 3) fetch + store + weather + alerts -> writes/updates data/*.csv
 python run.py
 
-# 4) open Power BI Desktop, import data/readings.csv and data/sites.csv,
-#    and follow powerbi/README.md to build the dashboard.
-#    Click Refresh in Power BI Desktop after each future `python run.py`.
+# 4) open LAQN Dashboard.pbip in Power BI Desktop and click Refresh.
+#    See powerbi/README.md for the model, pages and definitions.
 
-# Optional: schedule step 3 automatically
-# Windows Task Scheduler -> new task -> action: run_pipeline.bat in this folder
+# Scheduling
+# GitHub Actions runs step 3 automatically (.github/workflows/collect.yml).
+# To also run it locally: Windows Task Scheduler -> new task -> run_pipeline.bat

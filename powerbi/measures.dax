@@ -1,45 +1,474 @@
--- Paste these into Power BI Desktop: Modeling tab > New Measure, one at a time.
--- Assumes the readings table is named "readings" and the sites table "sites",
--- related on site_code (see powerbi/README.md for the relationship setup).
+-- Measures in the LAQN Dashboard model (table: New Measures).
 
-Latest Reading Time = MAX(readings[data_end_parsed])
+-- ========== Headline ==========
 
-Latest AQI (Selected Context) =
-VAR LatestTime = [Latest Reading Time]
+[Latest Reading Time] = CALCULATE ( MAX ( readings[data_end_parsed] ), readings[aq_index] > 0 )
+-- format: dd mmm HH:mm
+
+[Global Latest Time] = CALCULATE ( MAX ( readings[data_end_parsed] ), REMOVEFILTERS ( readings ), REMOVEFILTERS ( sites ) )
+-- format: dd mmm HH:mm
+
+[Latest AQI] =
+VAR t = [Latest Reading Time]
 RETURN
-    CALCULATE(
-        AVERAGE(readings[aq_index]),
-        readings[data_end_parsed] = LatestTime
+    CALCULATE (
+        AVERAGE ( readings[aq_index] ),
+        readings[data_end_parsed] = t,
+        readings[aq_index] > 0
+    )
+-- format: 0.0
+
+[Worst AQI (Latest)] = MAXX ( VALUES ( sites[site_code] ), [Latest AQI] )
+-- format: 0.0
+
+[Sites Reporting] =
+VAR t = [Latest Reading Time]
+RETURN
+    CALCULATE (
+        DISTINCTCOUNT ( readings[site_code] ),
+        readings[data_end_parsed] = t,
+        readings[aq_index] > 0
+    )
+-- format: 0
+
+[Data Age (hours)] = DATEDIFF ( [Global Latest Time], UTCNOW (), HOUR )
+-- format: 0
+
+[AQI Band] =
+VAR x = [Latest AQI]
+RETURN
+    IF ( ISBLANK ( x ), "No data", SWITCH ( TRUE (), x < 3.5, "Low", x < 6.5, "Moderate", x < 9.5, "High", "Very High" ) )
+
+[AQI Colour] =
+VAR x = [Latest AQI]
+RETURN
+    IF (
+        ISBLANK ( x ),
+        BLANK (),
+        SWITCH (
+            ROUND ( x, 0 ),
+            1, "#9CFF9C",
+            2, "#31FF00",
+            3, "#31CF00",
+            4, "#FFFF00",
+            5, "#FFCF00",
+            6, "#FF9A00",
+            7, "#FF6464",
+            8, "#FF0000",
+            9, "#990000",
+            "#CE30FF"
+        )
     )
 
-Worst AQI Today =
-CALCULATE(
-    MAX(readings[aq_index]),
-    readings[data_end_parsed] >= TODAY()
+[AQI Label] =
+VAR x = [Latest AQI]
+RETURN
+    IF ( ISBLANK ( x ), BLANK (), FORMAT ( x, "0.0" ) & " · " & [AQI Band] )
+
+[Worst Site] =
+VAR w = [Worst AQI (Latest)]
+RETURN
+    MINX ( FILTER ( VALUES ( sites[site_name] ), [Latest AQI] = w ), sites[site_name] )
+
+[Worst Band] =
+VAR x = [Worst AQI (Latest)]
+RETURN
+    IF ( ISBLANK ( x ), "No data", SWITCH ( TRUE (), x < 3.5, "Low", x < 6.5, "Moderate", x < 9.5, "High", "Very High" ) )
+
+[Worst Label] =
+VAR x = [Worst AQI (Latest)]
+RETURN
+    IF ( ISBLANK ( x ), "No data", FORMAT ( x, "0.0" ) & " · " & [Worst Band] )
+
+[Peak AQI (24h)] =
+VAR t = [Global Latest Time]
+RETURN
+    CALCULATE (
+        MAX ( readings[aq_index] ),
+        readings[data_end_parsed] > t - 1,
+        readings[data_end_parsed] <= t
+    )
+-- format: 0
+
+[Peak Band] =
+VAR x = [Peak AQI (24h)]
+RETURN
+    IF ( ISBLANK ( x ) || x = 0, "No data", SWITCH ( TRUE (), x < 3.5, "Low", x < 6.5, "Moderate", x < 9.5, "High", "Very High" ) )
+
+[Hero Text] =
+VAR who = IF ( ISFILTERED ( sites ) || ISFILTERED ( readings[species_name] ), "Selection", "London" )
+RETURN
+    who & " today: " & [Peak Band] & "  ·  peak " & FORMAT ( [Peak AQI (24h)], "0" ) & " of 10 in the last 24h"
+
+[Hero Colour] =
+SWITCH (
+    [Peak Band],
+    "Low", "#31CF00",
+    "Moderate", "#FF9A00",
+    "High", "#FF0000",
+    "Very High", "#CE30FF",
+    "#9E9E9E"
 )
 
-Sites Reporting Today =
-CALCULATE(
-    DISTINCTCOUNT(readings[site_code]),
-    readings[data_end_parsed] >= TODAY()
+[Site Rank] =
+VAR cur = [Latest AQI]
+VAR tieBreak = DIVIDE ( MAX ( sites[lat] ), 1000000 )
+RETURN
+    IF (
+        ISBLANK ( cur ),
+        BLANK (),
+        RANKX (
+            ALLSELECTED ( sites[site_name] ),
+            [Latest AQI] + DIVIDE ( CALCULATE ( MAX ( sites[lat] ) ), 1000000 ),
+            cur + tieBreak,
+            DESC,
+            DENSE
+        )
+    )
+-- format: 0
+
+-- ========== Exceedances ==========
+
+[Selected Threshold] = SELECTEDVALUE ( 'Exceedance Threshold'[AQI Threshold], 2 )
+-- format: 0
+
+[Exceedance Hours] =
+VAR th = [Selected Threshold]
+RETURN
+    CALCULATE ( COUNTROWS ( readings ), readings[aq_index] >= th )
+-- format: #,0
+
+[Exceedance Rate] = DIVIDE ( [Exceedance Hours] + 0, [Valid Readings] )
+-- format: 0.0%
+
+[Exceedance Hours (24h)] =
+VAR t = [Global Latest Time]
+RETURN
+    CALCULATE ( [Exceedance Hours], readings[data_end_parsed] > t - 1, readings[data_end_parsed] <= t ) + 0
+-- format: #,0
+
+[Exceedance Rate (7d)] =
+VAR t = [Global Latest Time]
+RETURN
+    CALCULATE ( [Exceedance Rate], readings[data_end_parsed] > t - 7, readings[data_end_parsed] <= t )
+-- format: 0.0%
+
+[Exceedance Rate (prior 7d)] =
+VAR t = [Global Latest Time]
+RETURN
+    CALCULATE ( [Exceedance Rate], readings[data_end_parsed] > t - 14, readings[data_end_parsed] <= t - 7 )
+-- format: 0.0%
+
+[WoW Change (pp)] = [Exceedance Rate (7d)] - [Exceedance Rate (prior 7d)]
+-- format: +0.0%;-0.0%;0.0%
+
+[WoW Label] =
+VAR d = [WoW Change (pp)]
+RETURN
+    IF (
+        ISBLANK ( d ),
+        "n/a",
+        IF ( d > 0, "▲ ", IF ( d < 0, "▼ ", "► " ) ) & FORMAT ( ABS ( d ) * 100, "0.0" ) & " pp vs prior 7d"
+    )
+
+[Site Exceedance Hours] = CALCULATE ( [Exceedance Hours], ALLSELECTED ( readings[species_name] ) )
+-- format: #,0
+
+[Exceedance Rank] =
+VAR c = [Site Exceedance Hours]
+RETURN
+    IF ( ISBLANK ( c ) || c = 0, BLANK (), RANKX ( ALLSELECTED ( sites[site_name] ), [Site Exceedance Hours], c, DESC, DENSE ) )
+-- format: 0
+
+[Exceedance Rate (rolling 7d)] =
+VAR d = MAX ( 'Calendar'[Date] )
+RETURN
+    CALCULATE (
+        [Exceedance Rate],
+        FILTER ( ALL ( 'Calendar'[Date] ), 'Calendar'[Date] > d - 7 && 'Calendar'[Date] <= d )
+    )
+-- format: 0.0%
+
+[Exceedance Rate (rolling prior 7d)] =
+VAR d = MAX ( 'Calendar'[Date] )
+RETURN
+    CALCULATE (
+        [Exceedance Rate],
+        FILTER ( ALL ( 'Calendar'[Date] ), 'Calendar'[Date] > d - 14 && 'Calendar'[Date] <= d - 7 )
+    )
+-- format: 0.0%
+
+-- ========== Data quality ==========
+
+[Valid Readings (Active)] = CALCULATE ( [Valid Readings], readings[Active Pair] = TRUE () )
+-- format: #,0
+
+[Captured Readings (Active)] = CALCULATE ( COUNTROWS ( readings ), readings[Active Pair] = TRUE () )
+-- format: #,0
+
+[No Data %] = DIVIDE ( [Captured Readings (Active)] - [Valid Readings (Active)], [Captured Readings (Active)] )
+-- format: 0.0%
+
+[No Data % (All pairs)] = DIVIDE ( CALCULATE ( COUNTROWS ( readings ), readings[aq_index] = 0 ), COUNTROWS ( readings ) )
+-- format: 0.0%
+
+[Captured Hours] = CALCULATE ( DISTINCTCOUNT ( readings[data_end_parsed] ), REMOVEFILTERS ( sites ) )
+-- format: 0
+
+[Active Pairs (Selected)] =
+CALCULATE (
+    COUNTROWS ( 'Site Species' ),
+    'Site Species'[Is Active] = TRUE (),
+    TREATAS ( VALUES ( sites[site_code] ), 'Site Species'[site_code] ),
+    TREATAS ( ALLSELECTED ( readings[species_code] ), 'Site Species'[species_code] )
+)
+-- format: 0
+
+[Expected Readings] = [Active Pairs (Selected)] * [Captured Hours]
+-- format: #,0
+
+[Expected Readings (24/7)] = [Active Pairs (Selected)] * 24
+-- format: #,0
+
+[Completeness %] = DIVIDE ( [Valid Readings (Active)], [Expected Readings] )
+-- format: 0%
+
+[Median Completeness] = MEDIANX ( FILTER ( VALUES ( sites[site_code] ), NOT ISBLANK ( [Completeness %] ) ), [Completeness %] )
+-- format: 0%
+
+[Completeness Label] =
+VAR c = [Completeness %]
+RETURN
+    IF ( ISBLANK ( c ), "Inactive site", FORMAT ( c, "0%" ) )
+
+[Site Completeness (Period)] = CALCULATE ( [Completeness %], ALLSELECTED ( 'Calendar' ) )
+-- format: 0%
+
+[Completeness Rank] =
+VAR c = [Site Completeness (Period)]
+RETURN
+    IF (
+        ISBLANK ( c ),
+        BLANK (),
+        RANKX ( ALLSELECTED ( sites[site_name] ), [Site Completeness (Period)], c, ASC, DENSE )
+    )
+-- format: 0
+
+[Possible Hours] = 24 * COUNTROWS ( VALUES ( 'Calendar'[Date] ) )
+-- format: #,0
+
+[Pipeline Coverage %] = DIVIDE ( [Captured Hours], [Possible Hours] )
+-- format: 0%
+
+[Hours Since Last Reading] = DATEDIFF ( [Latest Reading Time], [Global Latest Time], HOUR )
+-- format: 0
+
+[Freshness Colour] =
+VAR h = [Hours Since Last Reading]
+RETURN
+    IF ( ISBLANK ( h ), BLANK (), IF ( h <= 6, "#1E8E3E", IF ( h <= 24, "#F9AB00", "#D93025" ) ) )
+
+[Data Age Colour] =
+VAR h = [Data Age (hours)]
+RETURN
+    IF ( ISBLANK ( h ), "#9E9E9E", IF ( h <= 6, "#1E8E3E", IF ( h <= 24, "#F9AB00", "#D93025" ) ) )
+
+[No Data Rank] =
+VAR c = [No Data %]
+RETURN
+    IF ( ISBLANK ( c ), BLANK (), RANKX ( ALLSELECTED ( sites[site_name] ), [No Data %], c, DESC, DENSE ) )
+-- format: 0
+
+[Daily Hours Reference] = 24
+-- format: 0
+
+-- ========== Analysis ==========
+
+[Valid Readings] = CALCULATE ( COUNTROWS ( readings ), readings[aq_index] > 0 )
+-- format: #,0
+
+[Avg AQI (Valid)] = CALCULATE ( AVERAGE ( readings[aq_index] ), readings[aq_index] > 0 )
+-- format: 0.00
+
+[London Avg AQI (Valid)] = CALCULATE ( [Avg AQI (Valid)], ALL ( sites ) )
+-- format: 0.00
+
+[Readings Count] = COUNTROWS ( readings )
+-- format: #,0
+
+[Max AQI] = CALCULATE ( MAX ( readings[aq_index] ) )
+-- format: 0
+
+[Roadside Avg AQI] = CALCULATE ( [Avg AQI (Valid)], sites[site_type] IN { "Roadside", "Kerbside" } )
+-- format: 0.00
+
+[Background Avg AQI] = CALCULATE ( [Avg AQI (Valid)], sites[site_type] IN { "Urban Background", "Suburban" } )
+-- format: 0.00
+
+[Roadside Gap] =
+VAR r = [Roadside Avg AQI]
+VAR b = [Background Avg AQI]
+RETURN
+    IF ( ISBLANK ( r ) || ISBLANK ( b ), BLANK (), r - b )
+-- format: +0.00;-0.00;0.00
+
+[Dominant Pollutant] =
+VAR t =
+    ADDCOLUMNS (
+        VALUES ( readings[species_name] ),
+        "@max", CALCULATE ( MAX ( readings[aq_index] ) ),
+        "@n", [Exceedance Hours]
+    )
+VAR best = MAXX ( t, [@max] * 100000 + [@n] )
+RETURN
+    IF ( best > 0, MAXX ( FILTER ( t, [@max] * 100000 + [@n] = best ), readings[species_name] ), BLANK () )
+
+[Top Borough] =
+IF (
+    [Exceedance Hours] = 0,
+    BLANK (),
+    MAXX ( TOPN ( 1, ALLSELECTED ( sites[local_authority] ), [Exceedance Hours], DESC ), sites[local_authority] )
 )
 
-Avg AQI (Last 24h) =
-CALCULATE(
-    AVERAGE(readings[aq_index]),
-    readings[data_end_parsed] >= NOW() - 1
+[Avg AQI (last 24h)] =
+VAR t = [Global Latest Time]
+VAR d = MAX ( readings[data_end_parsed] )
+RETURN
+    IF ( d > t - 1, [Avg AQI (Valid)], BLANK () )
+-- format: 0.0
+
+[Peak Wind Sector] =
+IF (
+    ISBLANK ( [Avg AQI (Valid)] ),
+    BLANK (),
+    MAXX ( TOPN ( 1, ALLSELECTED ( weather[Wind Sector] ), [Avg AQI (Valid)], DESC ), weather[Wind Sector] )
 )
 
-Spike Count (All Time) = COUNTROWS(spike_alerts)
+-- ========== Alerts ==========
 
--- Optional: readable AQI band from the numeric index, if you ever need it
--- without relying on the API's own aq_band text column.
-AQI Band (Calculated) =
-SWITCH(
-    TRUE(),
-    ISBLANK([Latest AQI (Selected Context)]), "No data",
-    [Latest AQI (Selected Context)] <= 3, "Low",
-    [Latest AQI (Selected Context)] <= 6, "Moderate",
-    [Latest AQI (Selected Context)] <= 9, "High",
-    "Very High"
+[Spike Count] = CALCULATE ( COUNTROWS ( spikes_alerts ), spikes_alerts[kind] = "spike" ) + 0
+-- format: 0
+
+[Near-miss Count] = CALCULATE ( COUNTROWS ( spikes_alerts ), spikes_alerts[kind] = "near_miss" ) + 0
+-- format: 0
+
+[Spikes (7d)] =
+VAR t = [Global Latest Time]
+RETURN
+    CALCULATE ( [Spike Count], spikes_alerts[data_end_parsed] > t - 7 )
+-- format: 0
+
+[Spike Margin] = AVERAGEX ( spikes_alerts, spikes_alerts[aq_index] - spikes_alerts[threshold] )
+-- format: +0.0;-0.0;0.0
+
+[Latest Alert] =
+IF (
+    COUNTROWS ( spikes_alerts ) = 0,
+    "No alerts",
+    MAXX ( TOPN ( 1, spikes_alerts, spikes_alerts[data_end_parsed], DESC ), spikes_alerts[Alert Label] )
 )
+
+[Alert Time] = MAX ( spikes_alerts[checked_at_utc] )
+-- format: dd mmm HH:mm
+
+-- ========== Dynamic titles ==========
+
+[Title Worst Site] =
+VAR who = IF ( ISFILTERED ( sites ) || ISFILTERED ( readings[species_name] ), "the worst site in this selection", "London's worst site right now" )
+RETURN
+    IF ( ISBLANK ( [Worst AQI (Latest)] ), "No readings in this selection", [Worst Site] & " is " & who & " (" & [Worst Label] & ")" )
+
+[Title Boroughs] =
+IF (
+    ISBLANK ( [Top Borough] ),
+    "No readings at AQI ≥ " & [Selected Threshold] & " in this selection",
+    [Top Borough] & " has the most hours at AQI ≥ " & [Selected Threshold]
+)
+
+[Title Gap] =
+VAR t = ADDCOLUMNS ( VALUES ( readings[species_name] ), "@gap", [Roadside Gap] )
+VAR best = TOPN ( 1, FILTER ( t, NOT ISBLANK ( [@gap] ) ), [@gap], DESC )
+VAR sp = MAXX ( best, readings[species_name] )
+VAR g = MAXX ( best, [@gap] )
+RETURN
+    IF (
+        ISBLANK ( g ),
+        "No roadside vs background comparison in this selection",
+        IF (
+            g >= 0,
+            sp & " shows the largest roadside excess: +" & FORMAT ( g, "0.00" ) & " AQI points over background",
+            sp & " runs " & FORMAT ( ABS ( g ), "0.00" ) & " AQI points lower at the roadside than background"
+        )
+    )
+
+[Title Heatmap] = "Exceedance rate by hour and weekday - early data: " & [Captured Hours] & " bulletin hours in total, ~" & FORMAT ( DIVIDE ( [Captured Hours], 168 ), "0.0" ) & " per cell"
+
+[Title Alerts] = [Spike Count] & " spikes and " & [Near-miss Count] & " near-misses in the selected period"
+
+[Title Completeness] = "Median completeness " & FORMAT ( [Median Completeness], "0%" ) & " in this period - 25 least complete sites, last 14 days"
+
+[Title Wind] =
+IF (
+    ISBLANK ( [Peak Wind Sector] ),
+    "Pollution by wind direction (needs weather data)",
+    "Highest AQI when wind blows from the " & [Peak Wind Sector] & " (" & SELECTEDVALUE ( readings[species_name], "all pollutants" ) & ")"
+)
+
+[Title Site] = SELECTEDVALUE ( sites[site_name], "All sites" )
+
+[Title Site vs London] = SELECTEDVALUE ( sites[site_name], "Selected sites" ) & " vs London average"
+
+[Title Exceed 24h] = "Readings at AQI ≥ " & [Selected Threshold] & " in the last 24h"
+
+-- ========== Calculated tables ==========
+
+'Site Species' =
+VAR maxT = MAX ( readings[data_end_parsed] )
+RETURN
+    ADDCOLUMNS (
+        SUMMARIZE ( readings, readings[site_code], readings[species_code], readings[species_name] ),
+        "Key", readings[site_code] & "|" & readings[species_code],
+        "Last Valid", CALCULATE ( MAX ( readings[data_end_parsed] ), readings[aq_index] > 0 ),
+        "Valid Hours", CALCULATE ( COUNTROWS ( readings ), readings[aq_index] > 0 ),
+        "Captured Hours", CALCULATE ( COUNTROWS ( readings ) ),
+        "Is Active",
+            VAR lastValid = CALCULATE ( MAX ( readings[data_end_parsed] ), readings[aq_index] > 0 )
+            RETURN NOT ISBLANK ( lastValid ) && lastValid >= maxT - 7
+    )
+
+'Calendar' =
+VAR d0 = MIN ( readings[Reading Date] )
+VAR d1 = MAX ( readings[Reading Date] )
+RETURN
+    ADDCOLUMNS (
+        CALENDAR ( d0, d1 ),
+        "Week Start", [Date] - WEEKDAY ( [Date], 2 ) + 1,
+        "Week Label", FORMAT ( [Date] - WEEKDAY ( [Date], 2 ) + 1, "dd mmm" ),
+        "Weekday No", WEEKDAY ( [Date], 2 ),
+        "Weekday", FORMAT ( [Date], "ddd" ),
+        "Days Ago", INT ( d1 - [Date] ),
+        "Day Label", FORMAT ( [Date], "dd mmm" )
+    )
+
+'Exceedance Threshold' =
+SELECTCOLUMNS ( GENERATESERIES ( 1, 10, 1 ), "AQI Threshold", [Value] )
+
+-- ========== Calculated columns ==========
+
+readings[Site Species Key] = readings[site_code] & "|" & readings[species_code]
+
+readings[Weather Key] = readings[site_code] & "|" & FORMAT ( readings[data_end_parsed], "yyyyMMddHH" )
+
+readings[Active Pair] = COALESCE ( LOOKUPVALUE ( 'Site Species'[Is Active], 'Site Species'[Key], readings[Site Species Key] ), FALSE () )
+
+sites[Borough Geo] = sites[local_authority] & ", London, United Kingdom"
+
+spikes_alerts[Margin over Threshold] = spikes_alerts[aq_index] - spikes_alerts[threshold]
+
+spikes_alerts[Alert Label] = spikes_alerts[site_name] & " · " & spikes_alerts[species_name] & " · " & FORMAT ( spikes_alerts[data_end_parsed], "dd mmm HH:mm" )
+
+weather[Weather Key] = weather[site_code] & "|" & FORMAT ( weather[time_utc], "yyyyMMddHH" )
+
+weather[Wind Sector No] = IF ( ISBLANK ( weather[wind_direction_deg] ), BLANK (), MOD ( ROUND ( weather[wind_direction_deg] / 22.5, 0 ), 16 ) )
+
+weather[Wind Sector] = SWITCH ( weather[Wind Sector No], 0, "N", 1, "NNE", 2, "NE", 3, "ENE", 4, "E", 5, "ESE", 6, "SE", 7, "SSE", 8, "S", 9, "SSW", 10, "SW", 11, "WSW", 12, "W", 13, "WNW", 14, "NW", 15, "NNW" )

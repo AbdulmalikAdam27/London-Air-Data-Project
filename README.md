@@ -6,10 +6,11 @@ A lightweight data project that fetches live London air quality data from the
 ERG/LAQN API, appends it to plain CSV files, and visualises it in a Power BI
 dashboard:
 
-- **Worst sites right now** (highest AQI)
-- **Site + pollutant trends over time**
-- **Colour-coded London map** (green = better AQI, red = worse AQI)
-- **Spike alerts** (readings that break out of a site's normal range)
+- **London today**: headline band, worst sites and the pollutant behind them
+- **When and where it's worst**: exceedance trends, calendar and hourly heatmaps
+- **Why**: roadside vs background gap and pollution by wind direction
+- **Spike alerts and near-misses**: readings that break out of a site's normal range
+- **Data quality**: freshness, completeness and pipeline coverage
 
 ---
 
@@ -21,6 +22,7 @@ to **Data Analyst / Data / PM / Quant-adjacent** roles:
 - API ingestion
 - Data cleaning + transformation
 - CSV-based storage, dedupe-safe on rerun
+- Joining a second source (Open-Meteo wind data)
 - BI dashboarding (Power BI)
 - Reproducible repo structure
 
@@ -28,6 +30,8 @@ to **Data Analyst / Data / PM / Quant-adjacent** roles:
 
 This project uses the **London Air Quality Network / ERG API**:
 - ERG Air Quality API Help: `https://api.erg.ic.ac.uk/AirQuality/help`
+
+Hourly wind and temperature come from the [Open-Meteo](https://open-meteo.com/) API.
 
 ## Repository Structure
 
@@ -38,15 +42,17 @@ London-Air-Data-Project/
 ├─ data/
 │  ├─ readings.csv           # fact table: hourly readings (tracked — see Automation below)
 │  ├─ sites.csv              # dimension table: site name + lat/lon
-│  └─ spike_alerts.csv       # log of detected spikes
+│  ├─ spike_alerts.csv       # log of spikes and near-misses
+│  └─ weather.csv            # wind + temperature per site-hour
 ├─ powerbi/
-│  ├─ README.md              # step-by-step Power BI Desktop setup
-│  └─ measures.dax           # DAX measures to paste in
+│  ├─ README.md              # model, pages, definitions, limitations
+│  └─ measures.dax           # reference copy of the model's DAX
 ├─ src/
 │  ├─ fetch_hourly.py        # API request logic (readings + site metadata)
 │  ├─ transform.py           # flatten nested JSON into row dicts
 │  ├─ store_csv.py           # append/dedupe/upsert into the CSVs
-│  └─ alert_spikes.py        # spike detection over the CSV history
+│  ├─ weather.py             # Open-Meteo wind for each site-hour
+│  └─ alert_spikes.py        # spike and near-miss detection
 ├─ run.py                    # one-shot pipeline runner (fetch -> store -> alert)
 ├─ run_pipeline.bat          # entry point for local Windows Task Scheduler
 ├─ migrate_sqlite_to_csv.py  # one-off: import old SQLite-era history
@@ -65,7 +71,8 @@ python run.py
 `run.py`:
 1. Fetches the latest hourly monitoring index and appends new readings to `data/readings.csv` (skips anything already on file, keyed by site + pollutant + the API's own bulletin timestamp).
 2. Refreshes `data/sites.csv` with the latest site names and coordinates.
-3. Scans the full history for statistical outliers and logs them to `data/spike_alerts.csv`.
+3. Adds wind and temperature for each site-hour to `data/weather.csv`.
+4. Scans recent history for spikes and near-misses and logs each one once to `data/spike_alerts.csv`.
 
 Config lives in `.env` (already present with sane defaults):
 
@@ -73,30 +80,32 @@ Config lives in `.env` (already present with sane defaults):
 READINGS_CSV=./data/readings.csv
 SITES_CSV=./data/sites.csv
 SPIKES_CSV=./data/spike_alerts.csv
+WEATHER_CSV=./data/weather.csv
 GROUP_NAME=London
 
 LOOKBACK_HOURS=24
 Z_THRESHOLD=2.0
 MIN_AQINDEX=4
+NEAR_MISS_Z=1.5
+NEAR_MISS_MIN_AQINDEX=2
 ```
 
 ## Building the dashboard
 
-See [powerbi/README.md](powerbi/README.md) for the full walkthrough —
-importing the CSVs into Power BI Desktop, setting up the relationship, and
-which visuals/measures to build.
+See [powerbi/README.md](powerbi/README.md) for the data model, pages, definitions
+and known limitations.
 
 ## Scheduling / Automation
 
 Two ways to keep the CSVs growing, and you can use either or both:
 
 **Cloud (recommended) — GitHub Actions.** [`.github/workflows/collect.yml`](.github/workflows/collect.yml)
-runs `python run.py` every hour on GitHub's infrastructure and commits the
-updated CSVs back to this repo — no local machine needs to be on. It also
-runs on demand from the **Actions** tab (`Run workflow`). Because this repo
-is public, this costs nothing (public repos get unlimited Actions minutes).
-Power BI then reads the CSVs straight from GitHub instead of a local file —
-see [powerbi/README.md](powerbi/README.md#cloud-data-via-github-actions).
+is scheduled hourly on GitHub's infrastructure and commits the updated CSVs back
+to this repo, so no local machine needs to be on. It also runs on demand from the
+**Actions** tab (`Run workflow`), and costs nothing on a public repo. GitHub delays
+scheduled runs, so in practice it captures about 5 of the 24 hourly bulletins a day.
+Power BI reads the CSVs straight from GitHub; see
+[powerbi/README.md](powerbi/README.md#refreshing).
 
 **Local — Windows Task Scheduler.** Point a scheduled task at
 `run_pipeline.bat` in this folder. It runs `run.py` using the project's own
