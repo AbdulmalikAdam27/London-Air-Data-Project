@@ -1,0 +1,88 @@
+table weather
+	lineageTag: 321c9d76-0e46-443e-83a5-54bc94466c7b
+
+	column site_code
+		dataType: string
+		lineageTag: 1854430e-bdbf-40f8-b715-180066585448
+		summarizeBy: none
+		sourceColumn: site_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column time_utc
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 839ec61c-1317-4c9a-80b2-c378bb5cf1bd
+		summarizeBy: none
+		sourceColumn: time_utc
+
+		annotation SummarizationSetBy = Automatic
+
+	column wind_speed_ms
+		dataType: double
+		lineageTag: 48388f25-f5bf-493b-8158-b2c5060e9d21
+		summarizeBy: none
+		sourceColumn: wind_speed_ms
+
+		annotation SummarizationSetBy = Automatic
+
+	column wind_direction_deg
+		dataType: double
+		lineageTag: a22c5467-2460-4cb6-9f77-8fe4d0717ac4
+		summarizeBy: none
+		sourceColumn: wind_direction_deg
+
+		annotation SummarizationSetBy = Automatic
+
+	column temperature_c
+		dataType: double
+		lineageTag: 3c883aa6-3c3f-4545-a522-c7db51b5f395
+		summarizeBy: none
+		sourceColumn: temperature_c
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Weather Key' = weather[site_code] & "|" & FORMAT ( weather[time_utc], "yyyyMMddHH" )
+		dataType: string
+		lineageTag: 8dc326e2-435b-40bf-9ca3-2b37bfa35584
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Wind Sector No' = IF ( ISBLANK ( weather[wind_direction_deg] ), BLANK (), MOD ( ROUND ( weather[wind_direction_deg] / 22.5, 0 ), 16 ) )
+		dataType: int64
+		formatString: 0
+		lineageTag: 056cc753-c24e-45b3-8bad-b5b2761fff15
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Wind Sector' = SWITCH ( weather[Wind Sector No], 0, "N", 1, "NNE", 2, "NE", 3, "ENE", 4, "E", 5, "ESE", 6, "SE", 7, "SSE", 8, "S", 9, "SSW", 10, "SW", 11, "WSW", 12, "W", 13, "WNW", 14, "NW", 15, "NNW" )
+		dataType: string
+		lineageTag: eaa112b0-79f6-421d-8d34-e3f4418d3206
+		summarizeBy: none
+		sortByColumn: 'Wind Sector No'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition weather = m
+		mode: import
+		source =
+				let
+				    Url = "https://raw.githubusercontent.com/AbdulmalikAdam27/London-Air-Data-Project/main/data/weather.csv",
+				    Empty = #table(type table [site_code = text, time_utc = datetime, wind_speed_ms = number, wind_direction_deg = number, temperature_c = number], {}),
+				    Loaded = try
+				        let
+				            Source = Csv.Document(Web.Contents(Url),[Delimiter=",", Columns=5, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				            Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				            Typed = Table.TransformColumnTypes(Promoted,{{"site_code", type text}, {"time_utc", type datetime}, {"wind_speed_ms", type number}, {"wind_direction_deg", type number}, {"temperature_c", type number}})
+				        in
+				            Typed
+				        otherwise Empty
+				in
+				    Loaded
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

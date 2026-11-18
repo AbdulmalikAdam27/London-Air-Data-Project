@@ -1,0 +1,48 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "c660bd3e39693c1c404d",
+  "displayName": "Overview",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "baf99323ce6026bdb603",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "sites"
+              }
+            },
+            "Property": "site_name"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "Drillthrough"
+      }
+    ]
+  },
+  "pageBinding": {
+    "name": "503a2de4c3470765b1bd",
+    "type": "Drillthrough",
+    "parameters": [
+      {
+        "name": "b324175f15e032971ab7",
+        "boundFilter": "baf99323ce6026bdb603",
+        "fieldExpr": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "sites"
+              }
+            },
+            "Property": "site_name"
+          }
+        }
+      }
+    ]
+  },
+  "type": "Drillthrough"
+}

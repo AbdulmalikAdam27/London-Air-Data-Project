@@ -1,0 +1,117 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "7060c5c99a5dbe5a658e",
+  "position": {
+    "x": 451.733517431826,
+    "y": 486.7269589230238,
+    "z": 2800,
+    "height": 209.96064894718674,
+    "width": 400.83396617190192,
+    "tabOrder": 2800
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "sites"
+                    }
+                  },
+                  "Property": "site_type"
+                }
+              },
+              "queryRef": "sites.site_type",
+              "nativeQueryRef": "site_type",
+              "active": true,
+              "displayName": "Site type"
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "New Measures"
+                    }
+                  },
+                  "Property": "Exceedance Rate"
+                }
+              },
+              "queryRef": "New Measures.Exceedance Rate",
+              "nativeQueryRef": "Exceedance Rate",
+              "displayName": "Exceedance rate"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "New Measures"
+                    }
+                  },
+                  "Property": "Exceedance Hours"
+                }
+              },
+              "queryRef": "New Measures.Exceedance Hours",
+              "nativeQueryRef": "Exceedance Hours",
+              "displayName": "Exceedance hours"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "New Measures"
+                  }
+                },
+                "Property": "Exceedance Hours"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Exceedance hours by site type'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

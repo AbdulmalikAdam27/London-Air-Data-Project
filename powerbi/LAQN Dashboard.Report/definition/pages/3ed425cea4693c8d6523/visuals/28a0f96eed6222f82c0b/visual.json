@@ -1,0 +1,101 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "28a0f96eed6222f82c0b",
+  "position": {
+    "x": 841.4332067656195,
+    "y": 262.45081118398343,
+    "z": 1900,
+    "height": 241.77286848463928,
+    "width": 439.008629616845,
+    "tabOrder": 1900
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calendar"
+                    }
+                  },
+                  "Property": "Date"
+                }
+              },
+              "queryRef": "Calendar.Date",
+              "nativeQueryRef": "Date",
+              "active": true,
+              "displayName": "Date"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "New Measures"
+                    }
+                  },
+                  "Property": "Avg AQI (Valid)"
+                }
+              },
+              "queryRef": "New Measures.Avg AQI (Valid)",
+              "nativeQueryRef": "Avg AQI (Valid)",
+              "displayName": "Selection"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "New Measures"
+                    }
+                  },
+                  "Property": "London Avg AQI (Valid)"
+                }
+              },
+              "queryRef": "New Measures.London Avg AQI (Valid)",
+              "nativeQueryRef": "London Avg AQI (Valid)",
+              "displayName": "London average"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "New Measures"
+                    }
+                  },
+                  "Property": "Title Site vs London"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

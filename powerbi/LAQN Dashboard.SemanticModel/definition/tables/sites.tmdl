@@ -1,0 +1,77 @@
+table sites
+	lineageTag: b4da9a13-e84b-49d5-ac50-edf01e7ca4b2
+
+	column site_code
+		dataType: string
+		lineageTag: a5cf657e-3bf4-4e88-ab9a-2e61f040685a
+		summarizeBy: none
+		sourceColumn: site_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column site_name
+		dataType: string
+		lineageTag: 006c5024-2178-44b4-b611-b2f5a821ca61
+		summarizeBy: none
+		sourceColumn: site_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column local_authority
+		dataType: string
+		lineageTag: 7f6002a1-b8ef-4f2f-8dea-2bf3c6655e96
+		summarizeBy: none
+		sourceColumn: local_authority
+
+		annotation SummarizationSetBy = Automatic
+
+	column site_type
+		dataType: string
+		lineageTag: 960f07ec-001f-41db-a94b-dd7c40654f18
+		summarizeBy: none
+		sourceColumn: site_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column lat
+		dataType: double
+		lineageTag: 6afcd4d3-311c-434b-a77d-acae39368bf5
+		summarizeBy: sum
+		sourceColumn: lat
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column lon
+		dataType: double
+		lineageTag: 70f9baff-8d91-4f73-a792-a77651f05d22
+		summarizeBy: sum
+		sourceColumn: lon
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Borough Geo' = sites[local_authority] & ", London, United Kingdom"
+		dataType: string
+		lineageTag: 93db5968-b95a-4a87-866f-213cfa3d6477
+		dataCategory: Place
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition sites = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents("https://raw.githubusercontent.com/AbdulmalikAdam27/London-Air-Data-Project/main/data/sites.csv"),[Delimiter=",", Columns=6, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"site_code", type text}, {"site_name", type text}, {"local_authority", type text}, {"site_type", type text}, {"lat", type number}, {"lon", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

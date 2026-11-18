@@ -1,0 +1,45 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "f361b4c5da2eec3f0e81",
+  "position": {
+    "x": 23.8591646530894,
+    "y": 7.9530548843631337,
+    "z": 1000,
+    "height": 49.308940283051427,
+    "width": 699.86882982395571,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "London Air Quality",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "20pt",
+                      "color": "#111827"
+                    }
+                  },
+                  {
+                    "value": "   Can I trust the data?",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#6b7280"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

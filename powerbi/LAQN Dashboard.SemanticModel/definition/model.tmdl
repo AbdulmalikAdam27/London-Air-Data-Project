@@ -1,0 +1,32 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["readings","sites","spikes_alerts","weather","Table","New Measures"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table readings
+ref table DateTableTemplate_aaca70e7-0e37-415a-8ab8-f816d432412c
+ref table LocalDateTable_5c4665ce-e230-49e5-ae65-8e261530869b
+ref table LocalDateTable_4f512e2b-2a07-415f-b5f9-7a54b70af2c7
+ref table LocalDateTable_1d8d7aac-b57c-4466-a477-dcab3e55f2b4
+ref table sites
+ref table spikes_alerts
+ref table LocalDateTable_5b09b8b9-b5d4-42b3-a7f1-0d7e4827e8ae
+ref table LocalDateTable_0e16b35c-2480-4bcf-ad71-21d16e7a7d02
+ref table 'New Measures'
+ref table weather
+ref table 'Site Species'
+ref table Calendar
+ref table 'Exceedance Threshold'
+ref table Table
+
+ref cultureInfo en-US
+

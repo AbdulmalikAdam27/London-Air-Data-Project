@@ -1,0 +1,577 @@
+table 'New Measures'
+	lineageTag: f18ff660-3f7f-4eb0-b4cb-06ee3fd62c91
+
+	measure 'Valid Readings' = CALCULATE ( COUNTROWS ( readings ), readings[aq_index] > 0 )
+		formatString: #,0
+		displayFolder: Analysis
+		lineageTag: 4df40a82-485b-48e7-9ead-1dbd72c9dbc3
+
+	measure 'Latest Reading Time' = CALCULATE ( MAX ( readings[data_end_parsed] ), readings[aq_index] > 0 )
+		formatString: dd mmm HH:mm
+		displayFolder: Headline
+		lineageTag: 1392fc5a-bf8a-4ea2-8ed2-a8831e585ff7
+
+	measure 'Global Latest Time' = CALCULATE ( MAX ( readings[data_end_parsed] ), REMOVEFILTERS ( readings ), REMOVEFILTERS ( sites ) )
+		formatString: dd mmm HH:mm
+		displayFolder: Headline
+		lineageTag: 4c76eac2-987e-474d-9414-0876a73f7097
+
+	measure 'Latest AQI' =
+			VAR t = [Latest Reading Time]
+			RETURN
+			    CALCULATE (
+			        AVERAGE ( readings[aq_index] ),
+			        readings[data_end_parsed] = t,
+			        readings[aq_index] > 0
+			    )
+		formatString: 0.0
+		displayFolder: Headline
+		lineageTag: c22b7eab-9f9f-4f45-922b-8385eba763e9
+
+	measure 'Worst AQI (Latest)' = MAXX ( VALUES ( sites[site_code] ), [Latest AQI] )
+		formatString: 0.0
+		displayFolder: Headline
+		lineageTag: 47be7b0c-8d1d-4c5b-8422-301f34a00dcf
+
+	measure 'Sites Reporting' =
+			VAR t = [Latest Reading Time]
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( readings[site_code] ),
+			        readings[data_end_parsed] = t,
+			        readings[aq_index] > 0
+			    )
+		formatString: 0
+		displayFolder: Headline
+		lineageTag: ede45858-b2af-44e7-8594-42c550a10ef5
+
+	measure 'Data Age (hours)' = DATEDIFF ( [Global Latest Time], UTCNOW (), HOUR )
+		formatString: 0
+		displayFolder: Headline
+		lineageTag: dc8ee42e-2050-4554-8421-b796e034dddc
+
+	measure 'Avg AQI (Valid)' = CALCULATE ( AVERAGE ( readings[aq_index] ), readings[aq_index] > 0 )
+		formatString: 0.00
+		displayFolder: Analysis
+		lineageTag: 0e2f5013-be18-41dc-86a6-30f4f8511762
+
+	measure 'London Avg AQI (Valid)' = CALCULATE ( [Avg AQI (Valid)], ALL ( sites ) )
+		formatString: 0.00
+		displayFolder: Analysis
+		lineageTag: 45316d06-121e-447c-a1d4-663dcc672e3e
+
+	measure 'Readings Count' = COUNTROWS ( readings )
+		formatString: #,0
+		displayFolder: Analysis
+		lineageTag: b59c7f9b-a9e5-421e-ae44-49fb11d69200
+
+	measure 'Max AQI' = CALCULATE ( MAX ( readings[aq_index] ) )
+		formatString: 0
+		displayFolder: Analysis
+		lineageTag: 81a16a8e-1af1-4ea1-8941-1cd71a8ffb63
+
+	measure 'AQI Band' =
+			VAR x = [Latest AQI]
+			RETURN
+			    IF ( ISBLANK ( x ), "No data", SWITCH ( TRUE (), x < 3.5, "Low", x < 6.5, "Moderate", x < 9.5, "High", "Very High" ) )
+		displayFolder: Headline
+		lineageTag: f0108c98-a7f8-4a44-b1db-f5b9dced906f
+
+	measure 'AQI Colour' =
+			VAR x = [Latest AQI]
+			RETURN
+			    IF (
+			        ISBLANK ( x ),
+			        BLANK (),
+			        SWITCH (
+			            ROUND ( x, 0 ),
+			            1, "#9CFF9C",
+			            2, "#31FF00",
+			            3, "#31CF00",
+			            4, "#FFFF00",
+			            5, "#FFCF00",
+			            6, "#FF9A00",
+			            7, "#FF6464",
+			            8, "#FF0000",
+			            9, "#990000",
+			            "#CE30FF"
+			        )
+			    )
+		displayFolder: Headline
+		lineageTag: d0a5e965-3bf7-41a2-aa1b-54f7a32c9dbd
+
+	measure 'AQI Label' =
+			VAR x = [Latest AQI]
+			RETURN
+			    IF ( ISBLANK ( x ), BLANK (), FORMAT ( x, "0.0" ) & " · " & [AQI Band] )
+		displayFolder: Headline
+		lineageTag: 2941ed9d-1e8a-4112-a27c-3e051e4c6762
+
+	measure 'Worst Site' =
+			VAR w = [Worst AQI (Latest)]
+			RETURN
+			    MINX ( FILTER ( VALUES ( sites[site_name] ), [Latest AQI] = w ), sites[site_name] )
+		displayFolder: Headline
+		lineageTag: a8a37a4b-3162-4275-9eeb-c6ea183891e3
+
+	measure 'Worst Band' =
+			VAR x = [Worst AQI (Latest)]
+			RETURN
+			    IF ( ISBLANK ( x ), "No data", SWITCH ( TRUE (), x < 3.5, "Low", x < 6.5, "Moderate", x < 9.5, "High", "Very High" ) )
+		displayFolder: Headline
+		lineageTag: f09b3a49-66bd-49b5-8bba-9a31f32e98e2
+
+	measure 'Worst Label' =
+			VAR x = [Worst AQI (Latest)]
+			RETURN
+			    IF ( ISBLANK ( x ), "No data", FORMAT ( x, "0.0" ) & " · " & [Worst Band] )
+		displayFolder: Headline
+		lineageTag: 8af745a1-9eb6-42d2-b888-04c091d8f9a1
+
+	measure 'Peak AQI (24h)' =
+			VAR t = [Global Latest Time]
+			RETURN
+			    CALCULATE (
+			        MAX ( readings[aq_index] ),
+			        readings[data_end_parsed] > t - 1,
+			        readings[data_end_parsed] <= t
+			    )
+		formatString: 0
+		displayFolder: Headline
+		lineageTag: d0b37515-3943-4c51-954c-c8386aa1fc96
+
+	measure 'Peak Band' =
+			VAR x = [Peak AQI (24h)]
+			RETURN
+			    IF ( ISBLANK ( x ) || x = 0, "No data", SWITCH ( TRUE (), x < 3.5, "Low", x < 6.5, "Moderate", x < 9.5, "High", "Very High" ) )
+		displayFolder: Headline
+		lineageTag: 35019ba7-9b63-44ae-a645-ff1fe7b83177
+
+	measure 'Hero Text' =
+			VAR who = IF ( ISFILTERED ( sites ) || ISFILTERED ( readings[species_name] ), "Selection", "London" )
+			RETURN
+			    who & " today: " & [Peak Band] & "  ·  peak " & FORMAT ( [Peak AQI (24h)], "0" ) & " of 10 in the last 24h"
+		displayFolder: Headline
+		lineageTag: 15349cc1-1839-4e99-99a8-523536004ebb
+
+	measure 'Hero Colour' =
+			SWITCH (
+			    [Peak Band],
+			    "Low", "#31CF00",
+			    "Moderate", "#FF9A00",
+			    "High", "#FF0000",
+			    "Very High", "#CE30FF",
+			    "#9E9E9E"
+			)
+		displayFolder: Headline
+		lineageTag: 3c6d3693-6d1d-4883-bb77-d37fe144c0fa
+
+	measure 'Site Rank' =
+			VAR cur = [Latest AQI]
+			VAR tieBreak = DIVIDE ( MAX ( sites[lat] ), 1000000 )
+			RETURN
+			    IF (
+			        ISBLANK ( cur ),
+			        BLANK (),
+			        RANKX (
+			            ALLSELECTED ( sites[site_name] ),
+			            [Latest AQI] + DIVIDE ( CALCULATE ( MAX ( sites[lat] ) ), 1000000 ),
+			            cur + tieBreak,
+			            DESC,
+			            DENSE
+			        )
+			    )
+		formatString: 0
+		displayFolder: Headline
+		lineageTag: 6ddfd83d-a27b-48e5-a007-4653962bf52b
+
+	measure 'Selected Threshold' = SELECTEDVALUE ( 'Exceedance Threshold'[AQI Threshold], 2 )
+		formatString: 0
+		displayFolder: Exceedances
+		lineageTag: 7ae5edae-26c3-427a-ae06-33f87b54bdc5
+
+	measure 'Exceedance Hours' =
+			VAR th = [Selected Threshold]
+			RETURN
+			    CALCULATE ( COUNTROWS ( readings ), readings[aq_index] >= th )
+		formatString: #,0
+		displayFolder: Exceedances
+		lineageTag: 5322da42-8c23-4ddc-94ba-8a5924306721
+
+	measure 'Exceedance Rate' = DIVIDE ( [Exceedance Hours] + 0, [Valid Readings] )
+		formatString: 0.0%
+		displayFolder: Exceedances
+		lineageTag: 7baf9a13-c02c-481f-a30e-234ba6f6970b
+
+	measure 'Exceedance Hours (24h)' =
+			VAR t = [Global Latest Time]
+			RETURN
+			    CALCULATE ( [Exceedance Hours], readings[data_end_parsed] > t - 1, readings[data_end_parsed] <= t ) + 0
+		formatString: #,0
+		displayFolder: Exceedances
+		lineageTag: 19f2a126-e8f5-423a-8d33-befbc8b4e4ae
+
+	measure 'Exceedance Rate (7d)' =
+			VAR t = [Global Latest Time]
+			RETURN
+			    CALCULATE ( [Exceedance Rate], readings[data_end_parsed] > t - 7, readings[data_end_parsed] <= t )
+		formatString: 0.0%
+		displayFolder: Exceedances
+		lineageTag: 204f1332-a941-400c-af4c-a3b42862986f
+
+	measure 'Exceedance Rate (prior 7d)' =
+			VAR t = [Global Latest Time]
+			RETURN
+			    CALCULATE ( [Exceedance Rate], readings[data_end_parsed] > t - 14, readings[data_end_parsed] <= t - 7 )
+		formatString: 0.0%
+		displayFolder: Exceedances
+		lineageTag: 616ce1e6-bb3d-47ce-9e01-70cfde9498d2
+
+	measure 'WoW Change (pp)' = [Exceedance Rate (7d)] - [Exceedance Rate (prior 7d)]
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Exceedances
+		lineageTag: 3dc7131c-d3fd-4fa7-863f-eb9bd0681dbd
+
+	measure 'WoW Label' =
+			VAR d = [WoW Change (pp)]
+			RETURN
+			    IF (
+			        ISBLANK ( d ),
+			        "n/a",
+			        IF ( d > 0, "▲ ", IF ( d < 0, "▼ ", "► " ) ) & FORMAT ( ABS ( d ) * 100, "0.0" ) & " pp vs prior 7d"
+			    )
+		displayFolder: Exceedances
+		lineageTag: 7aefbe9d-52a6-477b-927b-2d329d288e55
+
+	measure 'Valid Readings (Active)' = CALCULATE ( [Valid Readings], readings[Active Pair] = TRUE () )
+		formatString: #,0
+		displayFolder: Data quality
+		lineageTag: 1d0c8777-f035-446f-85f9-a2b330751176
+
+	measure 'Captured Readings (Active)' = CALCULATE ( COUNTROWS ( readings ), readings[Active Pair] = TRUE () )
+		formatString: #,0
+		displayFolder: Data quality
+		lineageTag: 32650c07-72fc-45c7-a35b-583f8725f672
+
+	measure 'No Data %' = DIVIDE ( [Captured Readings (Active)] - [Valid Readings (Active)], [Captured Readings (Active)] )
+		formatString: 0.0%
+		displayFolder: Data quality
+		lineageTag: 7de6dd79-32ae-4e40-8439-057a7660ac87
+
+	measure 'No Data % (All pairs)' = DIVIDE ( CALCULATE ( COUNTROWS ( readings ), readings[aq_index] = 0 ), COUNTROWS ( readings ) )
+		formatString: 0.0%
+		displayFolder: Data quality
+		lineageTag: fe19f265-924c-46da-bdca-7041cc3db7c7
+
+	measure 'Captured Hours' = CALCULATE ( DISTINCTCOUNT ( readings[data_end_parsed] ), REMOVEFILTERS ( sites ) )
+		formatString: 0
+		displayFolder: Data quality
+		lineageTag: 342d0c3f-8f45-4364-9159-a0ac15a2c177
+
+	measure 'Active Pairs (Selected)' =
+			CALCULATE (
+			    COUNTROWS ( 'Site Species' ),
+			    'Site Species'[Is Active] = TRUE (),
+			    TREATAS ( VALUES ( sites[site_code] ), 'Site Species'[site_code] ),
+			    TREATAS ( ALLSELECTED ( readings[species_code] ), 'Site Species'[species_code] )
+			)
+		formatString: 0
+		displayFolder: Data quality
+		lineageTag: bc405da1-1847-42b1-874c-a5a14c7b0c06
+
+	measure 'Expected Readings' = [Active Pairs (Selected)] * [Captured Hours]
+		formatString: #,0
+		displayFolder: Data quality
+		lineageTag: bb1f9a1a-6902-43bb-808c-b11c51010552
+
+	measure 'Expected Readings (24/7)' = [Active Pairs (Selected)] * 24
+		formatString: #,0
+		displayFolder: Data quality
+		lineageTag: 7a4085fd-ef9a-4e7b-bcfa-a76b19b6b46b
+
+	measure 'Completeness %' = DIVIDE ( [Valid Readings (Active)], [Expected Readings] )
+		formatString: 0%
+		displayFolder: Data quality
+		lineageTag: 8c397b8a-48b4-4433-9856-6ef68a60e8c8
+
+	measure 'Median Completeness' = MEDIANX ( FILTER ( VALUES ( sites[site_code] ), NOT ISBLANK ( [Completeness %] ) ), [Completeness %] )
+		formatString: 0%
+		displayFolder: Data quality
+		lineageTag: 51ed1d07-dfa7-4d50-a7ca-8a533021a7a4
+
+	measure 'Completeness Label' =
+			VAR c = [Completeness %]
+			RETURN
+			    IF ( ISBLANK ( c ), "Inactive site", FORMAT ( c, "0%" ) )
+		displayFolder: Data quality
+		lineageTag: 5a832f6e-c17c-4794-94fb-4013f55e24b5
+
+	measure 'Site Completeness (Period)' = CALCULATE ( [Completeness %], ALLSELECTED ( 'Calendar' ) )
+		formatString: 0%
+		displayFolder: Data quality
+		lineageTag: 8aa961d2-35ac-40ab-8afb-f22042e30018
+
+	measure 'Completeness Rank' =
+			VAR c = [Site Completeness (Period)]
+			RETURN
+			    IF (
+			        ISBLANK ( c ),
+			        BLANK (),
+			        RANKX ( ALLSELECTED ( sites[site_name] ), [Site Completeness (Period)], c, ASC, DENSE )
+			    )
+		formatString: 0
+		displayFolder: Data quality
+		lineageTag: fd1c66cb-05d2-430b-920f-0938c5ba6744
+
+	measure 'Possible Hours' = 24 * COUNTROWS ( VALUES ( 'Calendar'[Date] ) )
+		formatString: #,0
+		displayFolder: Data quality
+		lineageTag: d1595c4e-e570-4cd6-af3f-5456adbf09b7
+
+	measure 'Pipeline Coverage %' = DIVIDE ( [Captured Hours], [Possible Hours] )
+		formatString: 0%
+		displayFolder: Data quality
+		lineageTag: 9acd76f2-8b35-4259-bab0-fe0cc61ec820
+
+	measure 'Hours Since Last Reading' = DATEDIFF ( [Latest Reading Time], [Global Latest Time], HOUR )
+		formatString: 0
+		displayFolder: Data quality
+		lineageTag: 8e6e213f-6b9b-4f6e-91ef-a4237a276413
+
+	measure 'Freshness Colour' =
+			VAR h = [Hours Since Last Reading]
+			RETURN
+			    IF ( ISBLANK ( h ), BLANK (), IF ( h <= 6, "#1E8E3E", IF ( h <= 24, "#F9AB00", "#D93025" ) ) )
+		displayFolder: Data quality
+		lineageTag: 7e288093-6e05-44ec-80b3-2fd778fe49ba
+
+	measure 'Roadside Avg AQI' = CALCULATE ( [Avg AQI (Valid)], sites[site_type] IN { "Roadside", "Kerbside" } )
+		formatString: 0.00
+		displayFolder: Analysis
+		lineageTag: 1bf3bc60-8401-4cf1-8378-2c004ed4cf74
+
+	measure 'Background Avg AQI' = CALCULATE ( [Avg AQI (Valid)], sites[site_type] IN { "Urban Background", "Suburban" } )
+		formatString: 0.00
+		displayFolder: Analysis
+		lineageTag: bbf012c9-1334-4c2c-ba74-178d2a1ce63a
+
+	measure 'Roadside Gap' =
+			VAR r = [Roadside Avg AQI]
+			VAR b = [Background Avg AQI]
+			RETURN
+			    IF ( ISBLANK ( r ) || ISBLANK ( b ), BLANK (), r - b )
+		formatString: +0.00;-0.00;0.00
+		displayFolder: Analysis
+		lineageTag: 8463cc17-df4b-40bf-a8f2-aae4813ff2e7
+
+	measure 'Dominant Pollutant' =
+			VAR t =
+			    ADDCOLUMNS (
+			        VALUES ( readings[species_name] ),
+			        "@max", CALCULATE ( MAX ( readings[aq_index] ) ),
+			        "@n", [Exceedance Hours]
+			    )
+			VAR best = MAXX ( t, [@max] * 100000 + [@n] )
+			RETURN
+			    IF ( best > 0, MAXX ( FILTER ( t, [@max] * 100000 + [@n] = best ), readings[species_name] ), BLANK () )
+		displayFolder: Analysis
+		lineageTag: bb379211-2dc2-464a-b4df-a89c68e0c66f
+
+	measure 'Top Borough' =
+			IF (
+			    [Exceedance Hours] = 0,
+			    BLANK (),
+			    MAXX ( TOPN ( 1, ALLSELECTED ( sites[local_authority] ), [Exceedance Hours], DESC ), sites[local_authority] )
+			)
+		displayFolder: Analysis
+		lineageTag: b3085a47-e0a3-4e84-9970-edc012553def
+
+	measure 'Avg AQI (last 24h)' =
+			VAR t = [Global Latest Time]
+			VAR d = MAX ( readings[data_end_parsed] )
+			RETURN
+			    IF ( d > t - 1, [Avg AQI (Valid)], BLANK () )
+		formatString: 0.0
+		displayFolder: Analysis
+		lineageTag: aa73b17a-b670-4498-a14c-3aab30b03bae
+
+	measure 'Peak Wind Sector' =
+			IF (
+			    ISBLANK ( [Avg AQI (Valid)] ),
+			    BLANK (),
+			    MAXX ( TOPN ( 1, ALLSELECTED ( weather[Wind Sector] ), [Avg AQI (Valid)], DESC ), weather[Wind Sector] )
+			)
+		displayFolder: Analysis
+		lineageTag: a283ad7e-e034-4d78-9f0c-9ae8b77b972c
+
+	measure 'Spike Count' = CALCULATE ( COUNTROWS ( spikes_alerts ), spikes_alerts[kind] = "spike" ) + 0
+		formatString: 0
+		displayFolder: Alerts
+		lineageTag: a8566130-a58e-4d99-ba66-ef2eb6c3281a
+
+	measure 'Near-miss Count' = CALCULATE ( COUNTROWS ( spikes_alerts ), spikes_alerts[kind] = "near_miss" ) + 0
+		formatString: 0
+		displayFolder: Alerts
+		lineageTag: 466b9867-f5a6-409d-99b7-479611d9276d
+
+	measure 'Spikes (7d)' =
+			VAR t = [Global Latest Time]
+			RETURN
+			    CALCULATE ( [Spike Count], spikes_alerts[data_end_parsed] > t - 7 )
+		formatString: 0
+		displayFolder: Alerts
+		lineageTag: 6384c523-71a1-409c-b271-58e4c5c3a08d
+
+	measure 'Spike Margin' = AVERAGEX ( spikes_alerts, spikes_alerts[aq_index] - spikes_alerts[threshold] )
+		formatString: +0.0;-0.0;0.0
+		displayFolder: Alerts
+		lineageTag: fa06e4a0-9687-4f0e-b631-23f86f8d463e
+
+	measure 'Title Worst Site' =
+			VAR who = IF ( ISFILTERED ( sites ) || ISFILTERED ( readings[species_name] ), "the worst site in this selection", "London's worst site right now" )
+			RETURN
+			    IF ( ISBLANK ( [Worst AQI (Latest)] ), "No readings in this selection", [Worst Site] & " is " & who & " (" & [Worst Label] & ")" )
+		displayFolder: Dynamic titles
+		lineageTag: d6c1d938-12c5-4d18-b7a4-ab4da10c7672
+
+	measure 'Title Boroughs' =
+			IF (
+			    ISBLANK ( [Top Borough] ),
+			    "No readings at AQI ≥ " & [Selected Threshold] & " in this selection",
+			    [Top Borough] & " has the most hours at AQI ≥ " & [Selected Threshold]
+			)
+		displayFolder: Dynamic titles
+		lineageTag: 2dc7c9ec-5e72-4e81-a901-3534571a2bca
+
+	measure 'Title Gap' =
+			VAR t = ADDCOLUMNS ( VALUES ( readings[species_name] ), "@gap", [Roadside Gap] )
+			VAR best = TOPN ( 1, FILTER ( t, NOT ISBLANK ( [@gap] ) ), [@gap], DESC )
+			VAR sp = MAXX ( best, readings[species_name] )
+			VAR g = MAXX ( best, [@gap] )
+			RETURN
+			    IF (
+			        ISBLANK ( g ),
+			        "No roadside vs background comparison in this selection",
+			        IF (
+			            g >= 0,
+			            sp & " shows the largest roadside excess: +" & FORMAT ( g, "0.00" ) & " AQI points over background",
+			            sp & " runs " & FORMAT ( ABS ( g ), "0.00" ) & " AQI points lower at the roadside than background"
+			        )
+			    )
+		displayFolder: Dynamic titles
+		lineageTag: 3713bdbb-178a-41cb-8112-8195312b7977
+
+	measure 'Title Heatmap' = "Exceedance rate by hour and weekday - early data: " & [Captured Hours] & " bulletin hours in total, ~" & FORMAT ( DIVIDE ( [Captured Hours], 168 ), "0.0" ) & " per cell"
+		displayFolder: Dynamic titles
+		lineageTag: 8cd5ad7d-0ebd-4944-8a2e-75f71ffc5990
+
+	measure 'Title Alerts' = [Spike Count] & " spikes and " & [Near-miss Count] & " near-misses in the selected period"
+		displayFolder: Dynamic titles
+		lineageTag: f3e6b6e0-5ff6-46e2-8363-c6bf5cb4c536
+
+	measure 'Title Completeness' = "Median completeness " & FORMAT ( [Median Completeness], "0%" ) & " in this period - 25 least complete sites, last 14 days"
+		displayFolder: Dynamic titles
+		lineageTag: 01662361-cc3c-4f8f-95ec-1a2665be9b94
+
+	measure 'Title Wind' =
+			IF (
+			    ISBLANK ( [Peak Wind Sector] ),
+			    "Pollution by wind direction (needs weather data)",
+			    "Highest AQI when wind blows from the " & [Peak Wind Sector] & " (" & SELECTEDVALUE ( readings[species_name], "all pollutants" ) & ")"
+			)
+		displayFolder: Dynamic titles
+		lineageTag: d5b612fe-8894-430a-9e83-b7383eed010a
+
+	measure 'Title Site' = SELECTEDVALUE ( sites[site_name], "All sites" )
+		displayFolder: Dynamic titles
+		lineageTag: 5a194fc2-2610-45f0-aaae-350231cc8e78
+
+	measure 'Title Site vs London' = SELECTEDVALUE ( sites[site_name], "Selected sites" ) & " vs London average"
+		displayFolder: Dynamic titles
+		lineageTag: 5145581b-a4dd-4a14-8d3e-10fedf58c762
+
+	measure 'Title Exceed 24h' = "Readings at AQI ≥ " & [Selected Threshold] & " in the last 24h"
+		displayFolder: Dynamic titles
+		lineageTag: f710baf2-7cc3-422f-8a33-9e1db7cc580f
+
+	measure 'Data Age Colour' =
+			VAR h = [Data Age (hours)]
+			RETURN
+			    IF ( ISBLANK ( h ), "#9E9E9E", IF ( h <= 6, "#1E8E3E", IF ( h <= 24, "#F9AB00", "#D93025" ) ) )
+		displayFolder: Data quality
+		lineageTag: 295efd70-f80c-44ab-8fbd-22e41d1eaaae
+
+	measure 'Site Exceedance Hours' = CALCULATE ( [Exceedance Hours], ALLSELECTED ( readings[species_name] ) )
+		formatString: #,0
+		displayFolder: Exceedances
+		lineageTag: 20004524-4018-438b-9857-efe562548c48
+
+	measure 'Exceedance Rank' =
+			VAR c = [Site Exceedance Hours]
+			RETURN
+			    IF ( ISBLANK ( c ) || c = 0, BLANK (), RANKX ( ALLSELECTED ( sites[site_name] ), [Site Exceedance Hours], c, DESC, DENSE ) )
+		formatString: 0
+		displayFolder: Exceedances
+		lineageTag: 4bbb63b0-5618-4519-a485-678ad278dd72
+
+	measure 'No Data Rank' =
+			VAR c = [No Data %]
+			RETURN
+			    IF ( ISBLANK ( c ), BLANK (), RANKX ( ALLSELECTED ( sites[site_name] ), [No Data %], c, DESC, DENSE ) )
+		formatString: 0
+		displayFolder: Data quality
+		lineageTag: a145e793-eb40-4352-a0d2-fe10f6614b4d
+
+	measure 'Latest Alert' =
+			IF (
+			    COUNTROWS ( spikes_alerts ) = 0,
+			    "No alerts",
+			    MAXX ( TOPN ( 1, spikes_alerts, spikes_alerts[data_end_parsed], DESC ), spikes_alerts[Alert Label] )
+			)
+		displayFolder: Alerts
+		lineageTag: 2ef9180c-447a-4663-89c6-304b59dd38f3
+
+	measure 'Daily Hours Reference' = 24
+		formatString: 0
+		displayFolder: Data quality
+		lineageTag: f9f43d04-c90b-4d72-b4aa-470f3cc824ed
+
+	measure 'Exceedance Rate (rolling 7d)' =
+			VAR d = MAX ( 'Calendar'[Date] )
+			RETURN
+			    CALCULATE (
+			        [Exceedance Rate],
+			        FILTER ( ALL ( 'Calendar'[Date] ), 'Calendar'[Date] > d - 7 && 'Calendar'[Date] <= d )
+			    )
+		formatString: 0.0%
+		displayFolder: Exceedances
+		lineageTag: e8d07d1e-30b8-4599-a707-0ff64d3ffc72
+
+	measure 'Exceedance Rate (rolling prior 7d)' =
+			VAR d = MAX ( 'Calendar'[Date] )
+			RETURN
+			    CALCULATE (
+			        [Exceedance Rate],
+			        FILTER ( ALL ( 'Calendar'[Date] ), 'Calendar'[Date] > d - 14 && 'Calendar'[Date] <= d - 7 )
+			    )
+		formatString: 0.0%
+		displayFolder: Exceedances
+		lineageTag: 395ea6f6-3c55-4898-ae3c-825fdfa0081c
+
+	measure 'Alert Time' = MAX ( spikes_alerts[checked_at_utc] )
+		formatString: dd mmm HH:mm
+		displayFolder: Alerts
+		lineageTag: 8daf8b2b-9b13-4412-a566-e6f584f8bd9d
+
+	partition 'New Measures' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

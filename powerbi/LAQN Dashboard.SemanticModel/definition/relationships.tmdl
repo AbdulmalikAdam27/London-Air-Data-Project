@@ -1,0 +1,41 @@
+relationship cf53c569-75b5-4b2f-b0cc-583fefe90766
+	joinOnDateBehavior: datePartOnly
+	fromColumn: readings.fetched_at_utc
+	toColumn: LocalDateTable_5c4665ce-e230-49e5-ae65-8e261530869b.Date
+
+relationship eecc3712-9a91-4f51-960c-dc643fe49145
+	joinOnDateBehavior: datePartOnly
+	fromColumn: readings.data_end
+	toColumn: LocalDateTable_4f512e2b-2a07-415f-b5f9-7a54b70af2c7.Date
+
+relationship cf5689ea-e31e-4437-9c44-03b4c42311d3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: readings.data_end_parsed
+	toColumn: LocalDateTable_1d8d7aac-b57c-4466-a477-dcab3e55f2b4.Date
+
+relationship AutoDetected_849c1557-b43f-4119-9d8d-086ae53e2d45
+	fromColumn: readings.site_code
+	toColumn: sites.site_code
+
+relationship 3cb9e868-c543-4e9c-8d74-23137152fcb3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: spikes_alerts.checked_at_utc
+	toColumn: LocalDateTable_5b09b8b9-b5d4-42b3-a7f1-0d7e4827e8ae.Date
+
+relationship d882d3e8-4bae-4745-8fa9-181d28b7e486
+	joinOnDateBehavior: datePartOnly
+	fromColumn: spikes_alerts.data_end_parsed
+	toColumn: LocalDateTable_0e16b35c-2480-4bcf-ad71-21d16e7a7d02.Date
+
+relationship 295a9cf9-bb93-4fb1-9840-6a3004027769
+	fromColumn: readings.'Reading Date'
+	toColumn: Calendar.Date
+
+relationship a01990b4-70f4-4b01-9628-bfa5f2439386
+	fromColumn: readings.'Weather Key'
+	toColumn: weather.'Weather Key'
+
+relationship 5160016f-88aa-4b69-b905-f8afd16742be
+	fromColumn: spikes_alerts.site_code
+	toColumn: sites.site_code
+

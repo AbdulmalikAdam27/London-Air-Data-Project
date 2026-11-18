@@ -23,3 +23,7 @@ data/*.db
 # Pipeline run logs
 logs/*.log
 !logs/.gitkeep
+
+# Power BI project: machine-specific settings and cached data
+**/.pbi/localSettings.json
+**/.pbi/cache.abf

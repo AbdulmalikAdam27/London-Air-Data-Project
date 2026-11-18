@@ -1,0 +1,213 @@
+table readings
+	lineageTag: 109576d3-8da0-43f5-86d9-8acf29616390
+
+	measure 'Avg AQI (Latest)' =
+			
+			AVERAGEX ( VALUES ( sites[site_code] ), [Latest AQI] )
+		lineageTag: 69dc1ad5-de28-45dc-ac55-3722e391dc4e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Avg_AQI_of_London =
+			
+			CALCULATE(
+			    AVERAGE('readings'[aq_index] ),
+			    FILTER('readings', 'readings'[aq_index] <> 0 ))
+		lineageTag: e28d6875-7bac-4968-a260-689f966911eb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column fetched_at_utc
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 90b1e736-d69e-4702-93fb-9d5500d2334b
+		summarizeBy: none
+		sourceColumn: fetched_at_utc
+
+		variation Variation
+			isDefault
+			relationship: cf53c569-75b5-4b2f-b0cc-583fefe90766
+			defaultHierarchy: LocalDateTable_5c4665ce-e230-49e5-ae65-8e261530869b.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column ttl_minutes
+		dataType: string
+		lineageTag: a6bb1005-fe3c-4b24-9362-7f64ea2d9c23
+		summarizeBy: none
+		sourceColumn: ttl_minutes
+
+		annotation SummarizationSetBy = Automatic
+
+	column local_authority
+		dataType: string
+		lineageTag: 96b68075-75b2-4ecf-8800-75c3f996a125
+		summarizeBy: none
+		sourceColumn: local_authority
+
+		annotation SummarizationSetBy = Automatic
+
+	column site_code
+		dataType: string
+		lineageTag: dfecbe79-9c9c-4806-8177-a26aee1e66ce
+		summarizeBy: none
+		sourceColumn: site_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column site_name
+		dataType: string
+		lineageTag: f0d5746a-6216-4f6d-84c5-b5c70636a5a7
+		summarizeBy: none
+		sourceColumn: site_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column site_type
+		dataType: string
+		lineageTag: bd5ccb16-9975-4c93-bcfe-3864ad1e13d8
+		summarizeBy: none
+		sourceColumn: site_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column species_code
+		dataType: string
+		lineageTag: 61526b51-23cc-4319-97ef-13893fb87f36
+		summarizeBy: none
+		sourceColumn: species_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column species_name
+		dataType: string
+		lineageTag: 7383ea50-bf58-4274-be2a-7a5355f0ad94
+		summarizeBy: none
+		sourceColumn: species_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column aq_index
+		dataType: double
+		lineageTag: d2436f90-ed88-4dbd-9422-e6e48ff335be
+		summarizeBy: sum
+		sourceColumn: aq_index
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column aq_band
+		dataType: string
+		lineageTag: d534f7aa-4898-4344-8ee6-ada78f1fdad5
+		summarizeBy: none
+		sourceColumn: aq_band
+
+		annotation SummarizationSetBy = Automatic
+
+	column index_source
+		dataType: string
+		lineageTag: 0cae035c-c16e-4f45-a1f4-a48765ebfa71
+		summarizeBy: none
+		sourceColumn: index_source
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_end
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 54601008-09c5-4bd1-8468-cc80ddefd029
+		summarizeBy: none
+		sourceColumn: data_end
+
+		variation Variation
+			isDefault
+			relationship: eecc3712-9a91-4f51-960c-dc643fe49145
+			defaultHierarchy: LocalDateTable_4f512e2b-2a07-415f-b5f9-7a54b70af2c7.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_end_parsed
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: eaeb2dfd-eea3-4d31-97f1-ba233616ead0
+		summarizeBy: none
+		sourceColumn: data_end_parsed
+
+		variation Variation
+			isDefault
+			relationship: cf5689ea-e31e-4437-9c44-03b4c42311d3
+			defaultHierarchy: LocalDateTable_1d8d7aac-b57c-4466-a477-dcab3e55f2b4.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hour of Day' = IF ( ISBLANK ( readings[data_end_parsed] ), BLANK (), HOUR ( readings[data_end_parsed] ) )
+		dataType: int64
+		formatString: 0
+		lineageTag: 2535492c-1d97-40f2-b5ca-4f959cd813d6
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Weekday No' = IF ( ISBLANK ( readings[data_end_parsed] ), BLANK (), WEEKDAY ( readings[data_end_parsed], 2 ) )
+		dataType: int64
+		formatString: 0
+		lineageTag: 72009284-ec7d-4eb4-85a3-d8821c0f3df6
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Weekday = FORMAT ( readings[data_end_parsed], "ddd" )
+		dataType: string
+		lineageTag: 3c73cffe-7282-4f72-9f1e-3876fb91ffc0
+		summarizeBy: none
+		sortByColumn: 'Weekday No'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Reading Date' = IF ( ISBLANK ( readings[data_end_parsed] ), BLANK (), DATE ( YEAR ( readings[data_end_parsed] ), MONTH ( readings[data_end_parsed] ), DAY ( readings[data_end_parsed] ) ) )
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 4ead9788-1db2-4ad5-ab0d-6b70ce6ff434
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Site Species Key' = readings[site_code] & "|" & readings[species_code]
+		dataType: string
+		lineageTag: fc7f33a4-ac75-4a1b-9a40-e54e42dbe969
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Weather Key' = readings[site_code] & "|" & FORMAT ( readings[data_end_parsed], "yyyyMMddHH" )
+		dataType: string
+		lineageTag: 6dd5e85e-88ea-4ce7-9a05-c10b0d4a0d35
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Active Pair' = COALESCE ( LOOKUPVALUE ( 'Site Species'[Is Active], 'Site Species'[Key], readings[Site Species Key] ), FALSE () )
+		dataType: boolean
+		lineageTag: 0d310247-325c-4f70-8502-357f6407b8db
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition readings = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents("https://raw.githubusercontent.com/AbdulmalikAdam27/London-Air-Data-Project/main/data/readings.csv"),[Delimiter=",", Columns=13, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    ToUtc = (t as nullable text) as nullable datetime => if t = null or t = "" then null else DateTimeZone.RemoveZone(DateTimeZone.SwitchZone(DateTimeZone.FromText(t), 0)),
+				    #"Parsed UTC times" = Table.TransformColumns(#"Promoted Headers", {{"fetched_at_utc", ToUtc, type datetime}, {"data_end_parsed", ToUtc, type datetime}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Parsed UTC times",{{"ttl_minutes", type text}, {"local_authority", type text}, {"site_code", type text}, {"site_name", type text}, {"site_type", type text}, {"species_code", type text}, {"species_name", type text}, {"aq_index", type number}, {"aq_band", type text}, {"index_source", type text}, {"data_end", type datetime}}),
+				    #"Removed legacy rows" = Table.SelectRows(#"Changed Type", each [data_end_parsed] <> null and [data_end_parsed] >= #datetime(2026, 9, 1, 0, 0, 0))
+				in
+				    #"Removed legacy rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,81 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "188ce8fa98aa2831a2eb",
+  "position": {
+    "x": 8,
+    "y": 94,
+    "z": 1200,
+    "height": 138,
+    "width": 304,
+    "tabOrder": 1200
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "readings"
+                    }
+                  },
+                  "Property": "data_end_parsed"
+                }
+              },
+              "queryRef": "readings.data_end_parsed",
+              "nativeQueryRef": "data_end_parsed",
+              "active": true,
+              "displayName": "Time (UTC)"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "New Measures"
+                    }
+                  },
+                  "Property": "Avg AQI (last 24h)"
+                }
+              },
+              "queryRef": "New Measures.Avg AQI (last 24h)",
+              "nativeQueryRef": "Avg AQI (last 24h)",
+              "displayName": "AQI"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Last 24 hours'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

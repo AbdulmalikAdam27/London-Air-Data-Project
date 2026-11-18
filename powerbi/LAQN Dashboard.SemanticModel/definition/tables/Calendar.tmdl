@@ -1,0 +1,89 @@
+table Calendar
+	lineageTag: a4286aff-2410-4a08-9b1e-edafd954f05b
+
+	column Date
+		dataType: dateTime
+		formatString: dd mmm
+		lineageTag: d4889095-d88d-4674-82c0-05add269c43b
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Week Start'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 9595aa65-d96c-40c9-93c6-10d7a5b937b2
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Week Start]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Week Label'
+		dataType: string
+		lineageTag: c35fefde-f942-4db1-bf4c-5c43ab1a4eef
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Week Label]
+		sortByColumn: 'Week Start'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Weekday No'
+		dataType: int64
+		formatString: 0
+		lineageTag: c76867d4-ed2e-443f-92e6-2297ac6b16dd
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Weekday No]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Weekday
+		dataType: string
+		lineageTag: a71b1eb3-88ee-4cd6-b452-629ea4549c5a
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Weekday]
+		sortByColumn: 'Weekday No'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Days Ago'
+		dataType: int64
+		formatString: 0
+		lineageTag: 65117a93-5620-4b1d-9a08-d7c7f53706fd
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Days Ago]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day Label'
+		dataType: string
+		lineageTag: ebfef3ec-a3ff-43fd-af20-42b30086a5e1
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Day Label]
+		sortByColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Calendar = calculated
+		mode: import
+		source =
+				VAR d0 = MIN ( readings[Reading Date] )
+				VAR d1 = MAX ( readings[Reading Date] )
+				RETURN
+				    ADDCOLUMNS (
+				        CALENDAR ( d0, d1 ),
+				        "Week Start", [Date] - WEEKDAY ( [Date], 2 ) + 1,
+				        "Week Label", FORMAT ( [Date] - WEEKDAY ( [Date], 2 ) + 1, "dd mmm" ),
+				        "Weekday No", WEEKDAY ( [Date], 2 ),
+				        "Weekday", FORMAT ( [Date], "ddd" ),
+				        "Days Ago", INT ( d1 - [Date] ),
+				        "Day Label", FORMAT ( [Date], "dd mmm" )
+				    )
+

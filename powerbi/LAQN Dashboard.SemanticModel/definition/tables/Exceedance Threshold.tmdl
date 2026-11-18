@@ -1,0 +1,17 @@
+table 'Exceedance Threshold'
+	lineageTag: 51d4a420-764d-4396-9e7e-5e1b5d715a9a
+
+	column 'AQI Threshold'
+		dataType: int64
+		formatString: 0
+		lineageTag: 3f229d0b-4bc8-4c5f-a822-05712698ec2d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [AQI Threshold]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Exceedance Threshold' = calculated
+		mode: import
+		source = SELECTCOLUMNS ( GENERATESERIES ( 1, 10, 1 ), "AQI Threshold", [Value] )
+

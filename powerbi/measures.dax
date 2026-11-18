@@ -1,4 +1,4 @@
--- Measures in the LAQN Dashboard model (table: New Measures).
+-- Measures in the LAQN Dashboard model (tables: New Measures, readings).
 
 -- ========== Headline ==========
 
@@ -419,6 +419,15 @@ IF (
 [Title Site vs London] = SELECTEDVALUE ( sites[site_name], "Selected sites" ) & " vs London average"
 
 [Title Exceed 24h] = "Readings at AQI ≥ " & [Selected Threshold] & " in the last 24h"
+
+-- ========== readings table ==========
+
+[Avg AQI (Latest)] = AVERAGEX ( VALUES ( sites[site_code] ), [Latest AQI] )
+
+[Avg_AQI_of_London] =
+CALCULATE(
+    AVERAGE('readings'[aq_index] ),
+    FILTER('readings', 'readings'[aq_index] <> 0 ))
 
 -- ========== Calculated tables ==========
 

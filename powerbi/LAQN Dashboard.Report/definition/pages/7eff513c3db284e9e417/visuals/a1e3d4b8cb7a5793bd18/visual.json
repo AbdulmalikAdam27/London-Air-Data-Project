@@ -1,0 +1,163 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "a1e3d4b8cb7a5793bd18",
+  "position": {
+    "x": 23.8591646530894,
+    "y": 365.84052468070416,
+    "z": 2100,
+    "height": 151.10804280289955,
+    "width": 674.4190541939937,
+    "tabOrder": 2100
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "spikes_alerts"
+                    }
+                  },
+                  "Property": "kind"
+                }
+              },
+              "queryRef": "spikes_alerts.kind",
+              "nativeQueryRef": "kind",
+              "displayName": "Type"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "spikes_alerts"
+                    }
+                  },
+                  "Property": "data_end_parsed"
+                }
+              },
+              "queryRef": "spikes_alerts.data_end_parsed",
+              "nativeQueryRef": "data_end_parsed",
+              "displayName": "Reading (UTC)"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "spikes_alerts"
+                    }
+                  },
+                  "Property": "site_name"
+                }
+              },
+              "queryRef": "spikes_alerts.site_name",
+              "nativeQueryRef": "site_name",
+              "displayName": "Site"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "spikes_alerts"
+                    }
+                  },
+                  "Property": "species_name"
+                }
+              },
+              "queryRef": "spikes_alerts.species_name",
+              "nativeQueryRef": "species_name",
+              "displayName": "Pollutant"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "spikes_alerts"
+                        }
+                      },
+                      "Property": "aq_index"
+                    }
+                  },
+                  "Function": 1
+                }
+              },
+              "queryRef": "Average(spikes_alerts.aq_index)",
+              "nativeQueryRef": "AQI",
+              "displayName": "AQI"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "spikes_alerts"
+                        }
+                      },
+                      "Property": "z_score"
+                    }
+                  },
+                  "Function": 1
+                }
+              },
+              "queryRef": "Average(spikes_alerts.z_score)",
+              "nativeQueryRef": "z",
+              "displayName": "z-score"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "spikes_alerts"
+                  }
+                },
+                "Property": "data_end_parsed"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Alert log: one row per reading flagged'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

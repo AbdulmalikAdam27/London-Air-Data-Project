@@ -1,0 +1,82 @@
+table 'Site Species'
+	lineageTag: 94f6054b-49f8-455c-b7e1-58bb32b55c71
+
+	column Key
+		dataType: string
+		lineageTag: 1fbb61d4-4825-4180-8469-617db5d36026
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Key]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last Valid'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 2cde6a42-53b7-4220-adcc-532555ead22f
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Last Valid]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valid Hours'
+		dataType: int64
+		formatString: 0
+		lineageTag: 7f878ccb-e715-4382-89e9-bf6a428bb208
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Valid Hours]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Captured Hours'
+		dataType: int64
+		formatString: 0
+		lineageTag: 5d06ae5d-ea1f-4725-8745-0402ff8c1ada
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Captured Hours]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is Active'
+		dataType: boolean
+		lineageTag: a460255b-726e-4265-b64c-3a281a7cd30c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Is Active]
+
+		annotation SummarizationSetBy = Automatic
+
+	column site_code
+		lineageTag: 2588cd6a-af98-478f-aea2-d712c5ca3e1f
+		isNameInferred
+		sourceColumn: readings[site_code]
+
+	column species_code
+		lineageTag: a81b28c0-36ed-41be-a80a-5dfede72be85
+		isNameInferred
+		sourceColumn: readings[species_code]
+
+	column species_name
+		lineageTag: d42b13e7-eff4-4eaa-a039-a5b4162ee113
+		isNameInferred
+		sourceColumn: readings[species_name]
+
+	partition 'Site Species' = calculated
+		mode: import
+		source =
+				VAR maxT = MAX ( readings[data_end_parsed] )
+				RETURN
+				    ADDCOLUMNS (
+				        SUMMARIZE ( readings, readings[site_code], readings[species_code], readings[species_name] ),
+				        "Key", readings[site_code] & "|" & readings[species_code],
+				        "Last Valid", CALCULATE ( MAX ( readings[data_end_parsed] ), readings[aq_index] > 0 ),
+				        "Valid Hours", CALCULATE ( COUNTROWS ( readings ), readings[aq_index] > 0 ),
+				        "Captured Hours", CALCULATE ( COUNTROWS ( readings ) ),
+				        "Is Active",
+				            VAR lastValid = CALCULATE ( MAX ( readings[data_end_parsed] ), readings[aq_index] > 0 )
+				            RETURN NOT ISBLANK ( lastValid ) && lastValid >= maxT - 7
+				    )
+

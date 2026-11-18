@@ -7,7 +7,7 @@ python migrate_sqlite_to_csv.py
 # 3) fetch + store + weather + alerts -> writes/updates data/*.csv
 python run.py
 
-# 4) open LAQN Dashboard.pbip in Power BI Desktop and click Refresh.
+# 4) open powerbi/LAQN Dashboard.pbip in Power BI Desktop and click Refresh.
 #    See powerbi/README.md for the model, pages and definitions.
 
 # Scheduling

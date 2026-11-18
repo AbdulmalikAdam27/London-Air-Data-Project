@@ -1,0 +1,151 @@
+table spikes_alerts
+	lineageTag: ae5ace37-75b4-419e-a21e-67fb7143a363
+
+	column checked_at_utc
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: bbce6331-f340-4a9e-869d-1805813b320f
+		summarizeBy: none
+		sourceColumn: checked_at_utc
+
+		variation Variation
+			isDefault
+			relationship: 3cb9e868-c543-4e9c-8d74-23137152fcb3
+			defaultHierarchy: LocalDateTable_5b09b8b9-b5d4-42b3-a7f1-0d7e4827e8ae.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column site_code
+		dataType: string
+		lineageTag: 4cdbc651-360a-4f58-a5ad-973dc5119bf9
+		summarizeBy: none
+		sourceColumn: site_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column site_name
+		dataType: string
+		lineageTag: 7f166114-ea77-412f-9967-6919d944c15f
+		summarizeBy: none
+		sourceColumn: site_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column species_code
+		dataType: string
+		lineageTag: 52527921-3713-4a39-a20f-46de818a7d71
+		summarizeBy: none
+		sourceColumn: species_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column species_name
+		dataType: string
+		lineageTag: 75c11b59-04cb-4964-9009-c1a987e87db9
+		summarizeBy: none
+		sourceColumn: species_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column aq_index
+		dataType: double
+		lineageTag: 58243c78-da24-48d3-983d-e4222072bfd2
+		summarizeBy: sum
+		sourceColumn: aq_index
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column mean
+		dataType: double
+		lineageTag: df0a6bf7-75fb-41c9-ac12-ea91ad81d950
+		summarizeBy: sum
+		sourceColumn: mean
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column std
+		dataType: double
+		lineageTag: 7827681f-a17b-4228-b07e-f99dcd0f6bfd
+		summarizeBy: sum
+		sourceColumn: std
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column threshold
+		dataType: double
+		lineageTag: 76921592-260e-4319-9a99-c5a83d0f59f3
+		summarizeBy: sum
+		sourceColumn: threshold
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column data_end_parsed
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 8544d239-298c-4111-9cf6-8677313f8fb8
+		summarizeBy: none
+		sourceColumn: data_end_parsed
+
+		variation Variation
+			isDefault
+			relationship: d882d3e8-4bae-4745-8fa9-181d28b7e486
+			defaultHierarchy: LocalDateTable_0e16b35c-2480-4bcf-ad71-21d16e7a7d02.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column z_score
+		dataType: double
+		lineageTag: 5682d7fb-d435-4c77-ab28-5306e0f31502
+		summarizeBy: none
+		sourceColumn: z_score
+
+		annotation SummarizationSetBy = Automatic
+
+	column kind
+		dataType: string
+		lineageTag: f4111ec9-74f4-4f07-ac20-dc8b87008c17
+		summarizeBy: none
+		sourceColumn: kind
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Margin over Threshold' = spikes_alerts[aq_index] - spikes_alerts[threshold]
+		dataType: double
+		formatString: +0.0;-0.0;0.0
+		lineageTag: 25017096-5f92-4ce4-a736-b67af25a0769
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Alert Label' = spikes_alerts[site_name] & " · " & spikes_alerts[species_name] & " · " & FORMAT ( spikes_alerts[data_end_parsed], "dd mmm HH:mm" )
+		dataType: string
+		lineageTag: 2e37db60-bcb0-42ea-a4f3-2d200aa83713
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition spikes_alerts = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents("https://raw.githubusercontent.com/AbdulmalikAdam27/London-Air-Data-Project/main/data/spike_alerts.csv"),[Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Ensured columns" = List.Accumulate({{"z_score", null}, {"kind", "spike"}}, #"Promoted Headers", (t, c) => if Table.HasColumns(t, c{0}) then t else Table.AddColumn(t, c{0}, each c{1})),
+				    ToUtc = (t as nullable text) as nullable datetime => if t = null or t = "" then null else DateTimeZone.RemoveZone(DateTimeZone.SwitchZone(DateTimeZone.FromText(t), 0)),
+				    #"Parsed UTC times" = Table.TransformColumns(#"Ensured columns", {{"checked_at_utc", ToUtc, type datetime}, {"data_end_parsed", ToUtc, type datetime}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Parsed UTC times",{{"site_code", type text}, {"site_name", type text}, {"species_code", type text}, {"species_name", type text}, {"aq_index", type number}, {"mean", type number}, {"std", type number}, {"threshold", type number}, {"z_score", type number}, {"kind", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

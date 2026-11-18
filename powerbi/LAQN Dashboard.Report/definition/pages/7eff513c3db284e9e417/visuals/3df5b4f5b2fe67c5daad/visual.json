@@ -1,0 +1,45 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "3df5b4f5b2fe67c5daad",
+  "position": {
+    "x": 23.8591646530894,
+    "y": 7.9530548843631337,
+    "z": 1000,
+    "height": 63.624439074905069,
+    "width": 699.86882982395571,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "London Air Quality",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "20pt",
+                      "color": "#111827"
+                    }
+                  },
+                  {
+                    "value": "   What has spiked and where?",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#6b7280"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
